@@ -9,5 +9,5 @@ Aufgaben:
 - [ ] Architekturskizze.
 - [ ] Aktivitätsdiagramm: High-Level für WebShop-Funktionen (z. B. Suche oder Produkt anlegen).
 - [ ] Sequenzdiagramm: Exemplarisch eine Funktion im Detail erläutern.
-- [ ] Klassendiagramm: Reverse Engineering für erste Übersicht.
-- [ ] ER-Diagramm: Darstellung der vorhandenen Datenbank-Relationen.
+- [ ] Klassendiagramm: Reverse Engineering für erste Übersicht. *Joe*
+- [ ] ER-Diagramm: Darstellung der vorhandenen Datenbank-Relationen. *Simon*

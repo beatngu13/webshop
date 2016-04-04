@@ -6,8 +6,8 @@ WebShop VISLAB (Master), Karlsruhe University of Applied Sciences.
 
 Aufgaben:
 - [x] Repository anlegen. *Daniel*
-- [ ] Architekturskizze.
+- [ ] Architekturskizze. *Julian*
 - [ ] Aktivitätsdiagramm: High-Level für WebShop-Funktionen (z. B. Suche oder Produkt anlegen).
-- [ ] Sequenzdiagramm: Exemplarisch eine Funktion im Detail erläutern.
+- [ ] Sequenzdiagramm: Exemplarisch eine Funktion im Detail erläutern. *Julian*
 - [ ] Klassendiagramm: Reverse Engineering für erste Übersicht. *Joe*
 - [x] ER-Diagramm: Darstellung der vorhandenen Datenbank-Relationen. *Simon*

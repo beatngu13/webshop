@@ -1,4 +1,4 @@
-# Mac OS X
+# Mac
 .DS_Store
 
 # Eclipse
@@ -12,3 +12,6 @@ EShop.iml
 
 # Maven
 target/
+
+# Hibernate
+hibernate.cfg.xml

@@ -7,7 +7,7 @@ WebShop VISLAB (Master), Karlsruhe University of Applied Sciences.
 Aufgaben:
 - [x] Repository anlegen. *Daniel*
 - [x] Architekturskizze. *Julian*
-- [ ] Selenium-Tests für Shop-Funktionen. *Simon + Daniel*
+- [x] Selenium-Tests für Shop-Funktionen. *Simon + Daniel*
 - [x] Sequenzdiagramm: Exemplarisch eine Funktion im Detail erläutern. *Julian*
 - [x] Klassendiagramm:
   - 1. Reverse Engineering für erste Übersicht. *Joe*

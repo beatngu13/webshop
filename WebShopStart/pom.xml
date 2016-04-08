@@ -14,6 +14,66 @@
 				<artifactId>maven-war-plugin</artifactId>
 				<version>2.6</version>
 			</plugin>
+		
+			<plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>sql-maven-plugin</artifactId>
+                <version>1.5</version>
+
+                <dependencies>
+                    <!-- specify the dependent jdbc driver here -->
+                    <dependency>
+                        <groupId>mysql</groupId>
+                        <artifactId>mysql-connector-java</artifactId>
+                        <version>5.1.38</version>
+                    </dependency>
+                </dependencies>
+
+                <configuration>
+                    <driver>com.mysql.jdbc.Driver</driver>
+                    <url>jdbc:mysql://localhost:3306/webshop</url>
+                    <username>root</username>
+          			<password>1234</password>
+                </configuration>
+
+                <executions>
+                    <!--  It creates integration test data before running the tests -->
+                    <execution>
+                        <id>create-integration-test-data</id>
+                        <phase>process-test-resources</phase>
+                        <goals>
+                            <goal>execute</goal>
+                        </goals>
+                        <configuration>
+                        	<autocommit>true</autocommit>
+                        	<fileset>
+                               	<basedir>${basedir}/src/test/resources/sql</basedir>
+                               	<includes>
+                                   	<include>clear-db.sql</include>
+                               	</includes>
+                           	</fileset>
+                        </configuration>
+                    </execution>
+
+                    <!--  It drops data after executing tests -->
+                    <execution>
+                        <id>drop-db-after-test</id>
+                        <phase>post-integration-test</phase>
+                        <goals>
+                            <goal>execute</goal>
+                        </goals>
+                        <configuration>
+                        	<autocommit>true</autocommit>
+                        	<fileset>
+                               	<basedir>${basedir}/src/test/resources/sql</basedir>
+                               	<includes>
+                                   	<include>delete-test-data.sql</include>
+                               	</includes>
+                           	</fileset>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
 		</plugins>
 	</build>
 	
@@ -71,7 +131,20 @@
 			<version>5.1.37</version>
 		</dependency>
 
-
+		<!-- JUnit -->
+		<dependency>
+  			<groupId>junit</groupId>
+  			<artifactId>junit</artifactId>
+  			<version>4.11</version>
+  			<scope>test</scope>
+		</dependency>
+		
+		<!-- Selenium -->
+		<dependency>
+        	<groupId>org.seleniumhq.selenium</groupId>
+        	<artifactId>selenium-java</artifactId>
+        	<version>2.53.0</version>
+    	</dependency>
 	</dependencies>
 </project>
 

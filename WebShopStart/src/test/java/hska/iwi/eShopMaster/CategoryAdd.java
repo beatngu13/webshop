@@ -9,41 +9,28 @@ import org.openqa.selenium.*;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.support.ui.Select;
 
-public class RegisterUser {
+public class CategoryAdd {
   private WebDriver driver;
   private String baseUrl;
   private boolean acceptNextAlert = true;
   private StringBuffer verificationErrors = new StringBuffer();
 
-  @Before
-  public void setUp() throws Exception {
-    driver = new FirefoxDriver();
-    baseUrl = "http://localhost:8080/";
-    driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
-  }
-
   @Test
-  public void testRegisterUser() throws Exception {
-    driver.get(baseUrl + "/webshop/LogoutAction.action");
-    driver.findElement(By.linkText("Noch nicht registriert?")).click();
-    driver.findElement(By.id("RegisterAction_firstname")).clear();
-    driver.findElement(By.id("RegisterAction_firstname")).sendKeys("John");
-    driver.findElement(By.id("RegisterAction_lastname")).clear();
-    driver.findElement(By.id("RegisterAction_lastname")).sendKeys("Done");
-    driver.findElement(By.id("RegisterAction_username")).clear();
-    driver.findElement(By.id("RegisterAction_username")).sendKeys("jdoe");
-    driver.findElement(By.id("RegisterAction_password1")).clear();
-    driver.findElement(By.id("RegisterAction_password1")).sendKeys("1234");
-    driver.findElement(By.id("RegisterAction_password2")).clear();
-    driver.findElement(By.id("RegisterAction_password2")).sendKeys("1234");
-    driver.findElement(By.id("RegisterAction_register_submit")).click();
+  public void testCategoryAdd() throws Exception {
+	driver = new FirefoxDriver();
+    driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
+    driver.get("http://localhost:8080/EShop");
     driver.findElement(By.id("LoginAction_username")).clear();
-    driver.findElement(By.id("LoginAction_username")).sendKeys("jdoe");
+    driver.findElement(By.id("LoginAction_username")).sendKeys("admin");
     driver.findElement(By.id("LoginAction_password")).clear();
-    driver.findElement(By.id("LoginAction_password")).sendKeys("1234");
+    driver.findElement(By.id("LoginAction_password")).sendKeys("admin");
     driver.findElement(By.id("LoginAction__execute")).click();
+    driver.findElement(By.linkText("Kategorien bearbeiten")).click();
+    driver.findElement(By.id("AddCategoryAction_newCatName")).clear();
+    driver.findElement(By.id("AddCategoryAction_newCatName")).sendKeys("Alkohol");
+    driver.findElement(By.id("AddCategoryAction_category_submit")).click();
     try {
-      assertEquals("Sie sind eingeloggt als John Done", driver.findElement(By.cssSelector("div.row")).getText());
+      assertEquals("Alkohol", driver.findElement(By.xpath("//div[@id='categories']/table/tbody/tr[3]/td[2]")).getText());
     } catch (Error e) {
       verificationErrors.append(e.toString());
     }

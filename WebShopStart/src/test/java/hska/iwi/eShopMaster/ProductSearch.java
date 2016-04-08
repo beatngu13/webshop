@@ -15,16 +15,11 @@ public class ProductSearch {
   private boolean acceptNextAlert = true;
   private StringBuffer verificationErrors = new StringBuffer();
 
-  @Before
-  public void setUp() throws Exception {
-    driver = new FirefoxDriver();
-    baseUrl = "http://localhost:8080/";
-    driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
-  }
-
   @Test
   public void testProductSearch() throws Exception {
-    driver.get(baseUrl + "/webshop/LogoutAction.action");
+	driver = new FirefoxDriver();
+    driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
+	driver.get("http://localhost:8080/EShop");
     driver.findElement(By.id("LoginAction_username")).clear();
     driver.findElement(By.id("LoginAction_username")).sendKeys("mmustermann");
     driver.findElement(By.id("LoginAction_password")).clear();

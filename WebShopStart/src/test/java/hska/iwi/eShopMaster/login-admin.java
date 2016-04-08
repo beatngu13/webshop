@@ -1,4 +1,4 @@
-package com.example.tests;
+package hska.iwi.eShopMaster;
 
 import java.util.regex.Pattern;
 import java.util.concurrent.TimeUnit;
@@ -9,7 +9,7 @@ import org.openqa.selenium.*;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.support.ui.Select;
 
-public class CategoryAdd {
+public class LoginAdmin {
   private WebDriver driver;
   private String baseUrl;
   private boolean acceptNextAlert = true;
@@ -23,19 +23,25 @@ public class CategoryAdd {
   }
 
   @Test
-  public void testCategoryAdd() throws Exception {
-    driver.get(baseUrl + "/webshop/");
+  public void testLoginAdmin() throws Exception {
+    driver.get(baseUrl + "/webshop/LogoutAction.action");
     driver.findElement(By.id("LoginAction_username")).clear();
     driver.findElement(By.id("LoginAction_username")).sendKeys("admin");
     driver.findElement(By.id("LoginAction_password")).clear();
     driver.findElement(By.id("LoginAction_password")).sendKeys("admin");
     driver.findElement(By.id("LoginAction__execute")).click();
-    driver.findElement(By.linkText("Kategorien bearbeiten")).click();
-    driver.findElement(By.id("AddCategoryAction_newCatName")).clear();
-    driver.findElement(By.id("AddCategoryAction_newCatName")).sendKeys("Alkohol");
-    driver.findElement(By.id("AddCategoryAction_category_submit")).click();
     try {
-      assertEquals("Alkohol", driver.findElement(By.xpath("//div[@id='categories']/table/tbody/tr[3]/td[2]")).getText());
+      assertEquals("Produkt hinzufügen", driver.findElement(By.linkText("Produkt hinzufügen")).getText());
+    } catch (Error e) {
+      verificationErrors.append(e.toString());
+    }
+    try {
+      assertEquals("Kategorien bearbeiten", driver.findElement(By.linkText("Kategorien bearbeiten")).getText());
+    } catch (Error e) {
+      verificationErrors.append(e.toString());
+    }
+    try {
+      assertEquals("Sie sind eingeloggt als admin admin", driver.findElement(By.cssSelector("div.row")).getText());
     } catch (Error e) {
       verificationErrors.append(e.toString());
     }

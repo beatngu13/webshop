@@ -1,4 +1,4 @@
-package com.example.tests;
+package hska.iwi.eShopMaster;
 
 import java.util.regex.Pattern;
 import java.util.concurrent.TimeUnit;
@@ -9,7 +9,7 @@ import org.openqa.selenium.*;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.support.ui.Select;
 
-public class LoginAdmin {
+public class LoginUser {
   private WebDriver driver;
   private String baseUrl;
   private boolean acceptNextAlert = true;
@@ -23,25 +23,20 @@ public class LoginAdmin {
   }
 
   @Test
-  public void testLoginAdmin() throws Exception {
-    driver.get(baseUrl + "/webshop/LogoutAction.action");
+  public void testLoginUser() throws Exception {
+    driver.get(baseUrl + "/webshop/index.jsp");
     driver.findElement(By.id("LoginAction_username")).clear();
-    driver.findElement(By.id("LoginAction_username")).sendKeys("admin");
+    driver.findElement(By.id("LoginAction_username")).sendKeys("mmustermann");
     driver.findElement(By.id("LoginAction_password")).clear();
-    driver.findElement(By.id("LoginAction_password")).sendKeys("admin");
+    driver.findElement(By.id("LoginAction_password")).sendKeys("1234");
     driver.findElement(By.id("LoginAction__execute")).click();
     try {
-      assertEquals("Produkt hinzufügen", driver.findElement(By.linkText("Produkt hinzufügen")).getText());
+      assertEquals("Sie sind eingeloggt als Max Mustermann", driver.findElement(By.cssSelector("div.row")).getText());
     } catch (Error e) {
       verificationErrors.append(e.toString());
     }
     try {
-      assertEquals("Kategorien bearbeiten", driver.findElement(By.linkText("Kategorien bearbeiten")).getText());
-    } catch (Error e) {
-      verificationErrors.append(e.toString());
-    }
-    try {
-      assertEquals("Sie sind eingeloggt als admin admin", driver.findElement(By.cssSelector("div.row")).getText());
+      assertTrue(isElementPresent(By.xpath("//div[2]")));
     } catch (Error e) {
       verificationErrors.append(e.toString());
     }

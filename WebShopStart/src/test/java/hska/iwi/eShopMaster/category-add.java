@@ -1,4 +1,4 @@
-package com.example.tests;
+package hska.iwi.eShopMaster;
 
 import java.util.regex.Pattern;
 import java.util.concurrent.TimeUnit;
@@ -9,7 +9,7 @@ import org.openqa.selenium.*;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.support.ui.Select;
 
-public class ProductAdd {
+public class CategoryAdd {
   private WebDriver driver;
   private String baseUrl;
   private boolean acceptNextAlert = true;
@@ -23,33 +23,19 @@ public class ProductAdd {
   }
 
   @Test
-  public void testProductAdd() throws Exception {
-    driver.get(baseUrl + "/webshop/LogoutAction.action");
+  public void testCategoryAdd() throws Exception {
+    driver.get(baseUrl + "/webshop/");
     driver.findElement(By.id("LoginAction_username")).clear();
     driver.findElement(By.id("LoginAction_username")).sendKeys("admin");
     driver.findElement(By.id("LoginAction_password")).clear();
     driver.findElement(By.id("LoginAction_password")).sendKeys("admin");
     driver.findElement(By.id("LoginAction__execute")).click();
-    driver.findElement(By.linkText("Produkt hinzufügen")).click();
-    driver.findElement(By.id("AddProductAction_name")).clear();
-    driver.findElement(By.id("AddProductAction_name")).sendKeys("Pizza");
-    driver.findElement(By.id("AddProductAction_price")).clear();
-    driver.findElement(By.id("AddProductAction_price")).sendKeys("6.5");
-    driver.findElement(By.id("AddProductAction_details")).clear();
-    driver.findElement(By.id("AddProductAction_details")).sendKeys("Lecker!");
-    driver.findElement(By.id("AddProductAction_product_submit")).click();
+    driver.findElement(By.linkText("Kategorien bearbeiten")).click();
+    driver.findElement(By.id("AddCategoryAction_newCatName")).clear();
+    driver.findElement(By.id("AddCategoryAction_newCatName")).sendKeys("Alkohol");
+    driver.findElement(By.id("AddCategoryAction_category_submit")).click();
     try {
-      assertEquals("Pizza", driver.findElement(By.xpath("//div[@id='startpage_products']/table/tbody/tr[2]/td[2]")).getText());
-    } catch (Error e) {
-      verificationErrors.append(e.toString());
-    }
-    try {
-      assertEquals("6.5", driver.findElement(By.xpath("//div[@id='startpage_products']/table/tbody/tr[2]/td[3]")).getText());
-    } catch (Error e) {
-      verificationErrors.append(e.toString());
-    }
-    try {
-      assertEquals("Nahrungsmittel", driver.findElement(By.xpath("//div[@id='startpage_products']/table/tbody/tr[2]/td[4]")).getText());
+      assertEquals("Alkohol", driver.findElement(By.xpath("//div[@id='categories']/table/tbody/tr[3]/td[2]")).getText());
     } catch (Error e) {
       verificationErrors.append(e.toString());
     }

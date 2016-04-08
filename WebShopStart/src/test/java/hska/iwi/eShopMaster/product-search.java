@@ -1,4 +1,4 @@
-package com.example.tests;
+package hska.iwi.eShopMaster;
 
 import java.util.regex.Pattern;
 import java.util.concurrent.TimeUnit;
@@ -9,7 +9,7 @@ import org.openqa.selenium.*;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.support.ui.Select;
 
-public class LoginUser {
+public class ProductSearch {
   private WebDriver driver;
   private String baseUrl;
   private boolean acceptNextAlert = true;
@@ -23,20 +23,25 @@ public class LoginUser {
   }
 
   @Test
-  public void testLoginUser() throws Exception {
-    driver.get(baseUrl + "/webshop/index.jsp");
+  public void testProductSearch() throws Exception {
+    driver.get(baseUrl + "/webshop/LogoutAction.action");
     driver.findElement(By.id("LoginAction_username")).clear();
     driver.findElement(By.id("LoginAction_username")).sendKeys("mmustermann");
     driver.findElement(By.id("LoginAction_password")).clear();
     driver.findElement(By.id("LoginAction_password")).sendKeys("1234");
     driver.findElement(By.id("LoginAction__execute")).click();
+    driver.findElement(By.id("SearchAction_searchMinPrice")).clear();
+    driver.findElement(By.id("SearchAction_searchMinPrice")).sendKeys("6.5");
+    driver.findElement(By.id("SearchAction_searchMaxPrice")).clear();
+    driver.findElement(By.id("SearchAction_searchMaxPrice")).sendKeys("6.5");
+    driver.findElement(By.id("SearchAction_search_submit")).click();
     try {
-      assertEquals("Sie sind eingeloggt als Max Mustermann", driver.findElement(By.cssSelector("div.row")).getText());
+      assertEquals("Pizza", driver.findElement(By.xpath("//div[@id='startpage_products']/table/tbody/tr[2]/td[2]")).getText());
     } catch (Error e) {
       verificationErrors.append(e.toString());
     }
     try {
-      assertTrue(isElementPresent(By.xpath("//div[2]")));
+      assertEquals("6.5", driver.findElement(By.xpath("//div[@id='startpage_products']/table/tbody/tr[2]/td[3]")).getText());
     } catch (Error e) {
       verificationErrors.append(e.toString());
     }

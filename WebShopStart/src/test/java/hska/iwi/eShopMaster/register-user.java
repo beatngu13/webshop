@@ -1,4 +1,4 @@
-package com.example.tests;
+package hska.iwi.eShopMaster;
 
 import java.util.regex.Pattern;
 import java.util.concurrent.TimeUnit;
@@ -9,7 +9,7 @@ import org.openqa.selenium.*;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.support.ui.Select;
 
-public class ProductSearch {
+public class RegisterUser {
   private WebDriver driver;
   private String baseUrl;
   private boolean acceptNextAlert = true;
@@ -23,25 +23,27 @@ public class ProductSearch {
   }
 
   @Test
-  public void testProductSearch() throws Exception {
+  public void testRegisterUser() throws Exception {
     driver.get(baseUrl + "/webshop/LogoutAction.action");
+    driver.findElement(By.linkText("Noch nicht registriert?")).click();
+    driver.findElement(By.id("RegisterAction_firstname")).clear();
+    driver.findElement(By.id("RegisterAction_firstname")).sendKeys("John");
+    driver.findElement(By.id("RegisterAction_lastname")).clear();
+    driver.findElement(By.id("RegisterAction_lastname")).sendKeys("Done");
+    driver.findElement(By.id("RegisterAction_username")).clear();
+    driver.findElement(By.id("RegisterAction_username")).sendKeys("jdoe");
+    driver.findElement(By.id("RegisterAction_password1")).clear();
+    driver.findElement(By.id("RegisterAction_password1")).sendKeys("1234");
+    driver.findElement(By.id("RegisterAction_password2")).clear();
+    driver.findElement(By.id("RegisterAction_password2")).sendKeys("1234");
+    driver.findElement(By.id("RegisterAction_register_submit")).click();
     driver.findElement(By.id("LoginAction_username")).clear();
-    driver.findElement(By.id("LoginAction_username")).sendKeys("mmustermann");
+    driver.findElement(By.id("LoginAction_username")).sendKeys("jdoe");
     driver.findElement(By.id("LoginAction_password")).clear();
     driver.findElement(By.id("LoginAction_password")).sendKeys("1234");
     driver.findElement(By.id("LoginAction__execute")).click();
-    driver.findElement(By.id("SearchAction_searchMinPrice")).clear();
-    driver.findElement(By.id("SearchAction_searchMinPrice")).sendKeys("6.5");
-    driver.findElement(By.id("SearchAction_searchMaxPrice")).clear();
-    driver.findElement(By.id("SearchAction_searchMaxPrice")).sendKeys("6.5");
-    driver.findElement(By.id("SearchAction_search_submit")).click();
     try {
-      assertEquals("Pizza", driver.findElement(By.xpath("//div[@id='startpage_products']/table/tbody/tr[2]/td[2]")).getText());
-    } catch (Error e) {
-      verificationErrors.append(e.toString());
-    }
-    try {
-      assertEquals("6.5", driver.findElement(By.xpath("//div[@id='startpage_products']/table/tbody/tr[2]/td[3]")).getText());
+      assertEquals("Sie sind eingeloggt als John Done", driver.findElement(By.cssSelector("div.row")).getText());
     } catch (Error e) {
       verificationErrors.append(e.toString());
     }

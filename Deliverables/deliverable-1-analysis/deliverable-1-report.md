@@ -20,7 +20,9 @@ Die folgende Abbildung zeigt die Architektur und alle Hauptkomponenten im Überb
 ![Image](diagrams/ComponentDiagram.png?raw=true)
 
 ## Klassenstruktur ##
-TODO
+Die Struktur der Klassen bildet im wesentlichen das MVC (Model View Controller) Architekturmuster ab. Eine Ausnahme stellen dabei jedoch die Views dar, da diese als JSPs (Java Server Pages) vorliegen. Die Controller liegen im gleichnamigen Paket und stellen, im Kontext von Struts2, jeweils Actions dar. So existiert beispielsweise für das anlegen einer Kategorie die Klasse *AddCategoryAction* oder für das Abrufen von Details zu einem Produkt die Klasse *ProductDetailsAction*. Nach diesem Schema sind alle Aktionen auf einen bestimmten Controller abbildbar. 
+
+Der Zugriff auf die Datenbank beziehungsweise die Model Schicht erfolgt über die Klassen im Paket *model*. Alle notwendigen Entitäten wie Benutzer, Kategorie oder Produkte sind als eigenständige Klassen gekapselt. Die Interaktion mit diesen Elementen geschieht, auf Ebene der Geschäftslogik, über diverse *Manager* Klassen. Diese Logik ist wiederum in ein spezifisches Interface, sowie eine zugehörige Implementierung geteilt. Für Produkte existiert dabei das Interface *ProductManager* und die zugehörige Implementierung *ProductManagerImpl* welche die Zugriffe entsprechend kapselt. Der Zugriff auf die Datenbank erfolgt über, jeweils zu den Elementen passenden, DAO Klassen. Die Klasse *GenericHibernateDAO* implementiert selbst das Interface *IGenericDAO* und stellt eine Basiskasse dar, welche durch entsprechende Spezialisierungen erweitert wird. Als Beispiel sei hierbei die Klasse *CategoryDAO* genannt, welche für den Zugriff auf *Category* Objekte aus der Datenbank zuständig ist. 
 
 ## Datenmodell ##
 TODO

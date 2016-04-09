@@ -9,13 +9,29 @@ documentclass: scrartcl
 urlcolor: blue
 ...
 
+Die vorliegende Dokumentation befasst sich mit der bereitgestellten Legacy-Anwendung des Webshops. Es wird sowohl die Struktur und Architektur der Anwendung, sowie das Verhalten und die Kommunikation zwischen den Komponenten beleuchtet.
+
 # Strukturelle Analyse #
 ## Architektur der Anwendung ##
-## Klassen und Komponenten ##
-## Datenmodell ##
+Die gesamte Anwendung ist als monolitische Struktur in einem gemeinsamen Archiv gebündelt. Sie ist in mehrere Schichten eingeteilt, welche jeweils in Package-Ebene voneinander getrennt sind. Der View-Layer wird durch JSP-Files und dem Struts2-Framework implementiert. Von hier aus werden die Requests vom Browser an die jeweiligen Controller-Instanzen geleitet. Die Controller erzeugen die jeweils benötigten Manager-Instanzen aus dem BusinessLogic-Layer. Von hier aus gelangen die aufrufe zu den Datenzugriffsobjekten (DAO), welche die Verbindung zur Datenbank durch das JPA-Framework Hibernate kapseln. 
 
-Bacon ipsum dolor amet turkey tail swine, beef ribs doner spare ribs tongue t-bone alcatra. Strip steak ribeye porchetta jowl, doner spare ribs frankfurter tenderloin jerky pig pastrami ground round. Pancetta turkey salami landjaeger capicola tail drumstick meatloaf biltong boudin brisket. Bresaola turducken ham hock tri-tip brisket shoulder beef ribs fatback porchetta pork loin swine picanha. Prosciutto sirloin brisket, pork strip steak shoulder turkey tri-tip ball tip tongue spare ribs alcatra drumstick shank.
+Die folgende Abbildung zeigt die Architektur und alle Hauptkomponenten im Überblick:
+
+![Image](diagrams/ComponentDiagram.png?raw=true)
+
+## Klassenstruktur ##
+TODO
+
+## Datenmodell ##
+TODO
 
 # Analyse des Verhaltens #
 ## Formale Spezifikation ##
+TODO
+
 ## Ablauf eines Beispiel-Workflows ##
+Anhand der Workflows "Produkt hinzufügen" wird exemplarisch die Kommunikation sowie das Verhalten der einzelnen Komponenten gezeigt. Es fällt auf, dass offensichtlich bei jeder Anfrage ein neuer ProductManager, CategoryManager sowie die dazugehörigen Datenzugriffsobjekte erstellt werden. 
+
+Im folgenden Sequenzdiagramm ist der beispielhafte Workflow innerhalb der gesamten Anwendung abgebildet:
+
+![Image](diagrams/SequenceDiagram_DddProduct.png?raw=true)

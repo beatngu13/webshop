@@ -41,7 +41,7 @@
                     <!--  Set up database for integration tests -->
                     <execution>
                         <id>create-integration-test-data</id>
-                        <phase>process-test-resources</phase>
+                        <phase>pre-integration-test</phase>
                         <goals>
                             <goal>execute</goal>
                         </goals>

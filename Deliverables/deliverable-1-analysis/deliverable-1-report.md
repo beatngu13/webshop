@@ -17,7 +17,7 @@ Die gesamte Anwendung ist als monolitische Struktur in einem gemeinsamen Archiv 
 
 Die folgende Abbildung zeigt die Architektur und alle Hauptkomponenten im Überblick:
 
-![Image](diagrams/ComponentDiagram.png =104x386)
+![Image](diagrams/ComponentDiagram.png?raw=true)
 
 ## Klassenstruktur ##
 TODO

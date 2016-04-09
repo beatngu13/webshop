@@ -7,30 +7,37 @@ import org.openqa.selenium.firefox.FirefoxDriver;
 
 import java.util.concurrent.TimeUnit;
 
-import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 
-public class CategoryRemove {
+public class ProductSearchIT {
     private WebDriver driver;
     private String baseUrl;
     private boolean acceptNextAlert = true;
     private StringBuffer verificationErrors = new StringBuffer();
 
     @Test
-    public void testCategoryRemove() throws Exception {
+    public void testProductSearch() throws Exception {
         driver = new FirefoxDriver();
-        driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
-        driver.get("http://localhost:8080/EShop");
+        driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
+        driver.get("http://localhost:8080/webshop");
         driver.findElement(By.id("LoginAction_username")).clear();
-        driver.findElement(By.id("LoginAction_username")).sendKeys("admin");
+        driver.findElement(By.id("LoginAction_username")).sendKeys("mmustermann");
         driver.findElement(By.id("LoginAction_password")).clear();
-        driver.findElement(By.id("LoginAction_password")).sendKeys("admin");
+        driver.findElement(By.id("LoginAction_password")).sendKeys("1234");
         driver.findElement(By.id("LoginAction__execute")).click();
-        driver.findElement(By.linkText("Kategorien bearbeiten")).click();
-        driver.findElement(By.cssSelector("img[alt=\"Löschen\"]")).click();
-        driver.findElement(By.linkText("Alle Produkte")).click();
+        driver.findElement(By.id("SearchAction_searchMinPrice")).clear();
+        driver.findElement(By.id("SearchAction_searchMinPrice")).sendKeys("6.5");
+        driver.findElement(By.id("SearchAction_searchMaxPrice")).clear();
+        driver.findElement(By.id("SearchAction_searchMaxPrice")).sendKeys("6.5");
+        driver.findElement(By.id("SearchAction_search_submit")).click();
         try {
-            assertFalse(isElementPresent(By.xpath("//div[@id='startpage_products']/table/tbody/tr[2]")));
+            assertEquals("Pizza", driver.findElement(By.xpath("//div[@id='startpage_products']/table/tbody/tr[2]/td[2]")).getText());
+        } catch (Error e) {
+            verificationErrors.append(e.toString());
+        }
+        try {
+            assertEquals("6.5", driver.findElement(By.xpath("//div[@id='startpage_products']/table/tbody/tr[2]/td[3]")).getText());
         } catch (Error e) {
             verificationErrors.append(e.toString());
         }

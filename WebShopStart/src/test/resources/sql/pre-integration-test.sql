@@ -1,9 +1,7 @@
 TRUNCATE TABLE customer;
-
 SET FOREIGN_KEY_CHECKS = 0; 
 TRUNCATE TABLE category; 
 SET FOREIGN_KEY_CHECKS = 1;
-
 TRUNCATE TABLE product;
 
 INSERT INTO category(id, name) values(1, 'Nahrungsmittel');

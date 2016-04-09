@@ -10,42 +10,36 @@ import java.util.concurrent.TimeUnit;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 
-public class ProductAdd {
+public class RegisterUserIT {
     private WebDriver driver;
     private String baseUrl;
     private boolean acceptNextAlert = true;
     private StringBuffer verificationErrors = new StringBuffer();
 
     @Test
-    public void testProductAdd() throws Exception {
+    public void testRegisterUser() throws Exception {
         driver = new FirefoxDriver();
-        driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
-        driver.get("http://localhost:8080/EShop");
+        driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
+        driver.get("http://localhost:8080/webshop");
+        driver.findElement(By.linkText("Noch nicht registriert?")).click();
+        driver.findElement(By.id("RegisterAction_firstname")).clear();
+        driver.findElement(By.id("RegisterAction_firstname")).sendKeys("John");
+        driver.findElement(By.id("RegisterAction_lastname")).clear();
+        driver.findElement(By.id("RegisterAction_lastname")).sendKeys("Done");
+        driver.findElement(By.id("RegisterAction_username")).clear();
+        driver.findElement(By.id("RegisterAction_username")).sendKeys("jdoe");
+        driver.findElement(By.id("RegisterAction_password1")).clear();
+        driver.findElement(By.id("RegisterAction_password1")).sendKeys("1234");
+        driver.findElement(By.id("RegisterAction_password2")).clear();
+        driver.findElement(By.id("RegisterAction_password2")).sendKeys("1234");
+        driver.findElement(By.id("RegisterAction_register_submit")).click();
         driver.findElement(By.id("LoginAction_username")).clear();
-        driver.findElement(By.id("LoginAction_username")).sendKeys("admin");
+        driver.findElement(By.id("LoginAction_username")).sendKeys("jdoe");
         driver.findElement(By.id("LoginAction_password")).clear();
-        driver.findElement(By.id("LoginAction_password")).sendKeys("admin");
+        driver.findElement(By.id("LoginAction_password")).sendKeys("1234");
         driver.findElement(By.id("LoginAction__execute")).click();
-        driver.findElement(By.linkText("Produkt hinzufügen")).click();
-        driver.findElement(By.id("AddProductAction_name")).clear();
-        driver.findElement(By.id("AddProductAction_name")).sendKeys("Pizza");
-        driver.findElement(By.id("AddProductAction_price")).clear();
-        driver.findElement(By.id("AddProductAction_price")).sendKeys("6.5");
-        driver.findElement(By.id("AddProductAction_details")).clear();
-        driver.findElement(By.id("AddProductAction_details")).sendKeys("Lecker!");
-        driver.findElement(By.id("AddProductAction_product_submit")).click();
         try {
-            assertEquals("Pizza", driver.findElement(By.xpath("//div[@id='startpage_products']/table/tbody/tr[2]/td[2]")).getText());
-        } catch (Error e) {
-            verificationErrors.append(e.toString());
-        }
-        try {
-            assertEquals("6.5", driver.findElement(By.xpath("//div[@id='startpage_products']/table/tbody/tr[2]/td[3]")).getText());
-        } catch (Error e) {
-            verificationErrors.append(e.toString());
-        }
-        try {
-            assertEquals("Nahrungsmittel", driver.findElement(By.xpath("//div[@id='startpage_products']/table/tbody/tr[2]/td[4]")).getText());
+            assertEquals("Sie sind eingeloggt als John Done", driver.findElement(By.cssSelector("div.row")).getText());
         } catch (Error e) {
             verificationErrors.append(e.toString());
         }

@@ -7,9 +7,10 @@ import org.openqa.selenium.firefox.FirefoxDriver;
 
 import java.util.concurrent.TimeUnit;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 
-public class LoginAdmin {
+public class LoginAdminIT {
     private WebDriver driver;
     private String baseUrl;
     private boolean acceptNextAlert = true;
@@ -18,25 +19,25 @@ public class LoginAdmin {
     @Test
     public void testLoginAdmin() throws Exception {
         driver = new FirefoxDriver();
-        driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
-        driver.get("http://localhost:8080/EShop");
+        driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
+        driver.get("http://localhost:8080/webshop");
         driver.findElement(By.id("LoginAction_username")).clear();
         driver.findElement(By.id("LoginAction_username")).sendKeys("admin");
         driver.findElement(By.id("LoginAction_password")).clear();
         driver.findElement(By.id("LoginAction_password")).sendKeys("admin");
         driver.findElement(By.id("LoginAction__execute")).click();
         try {
-            //assertEquals("Produkt hinzufügen", driver.findElement(By.linkText("Produkt hinzufügen")).getText());
+            assertEquals("Produkt hinzufügen", driver.findElement(By.linkText("Produkt hinzufügen")).getText());
         } catch (Error e) {
             verificationErrors.append(e.toString());
         }
         try {
-            //assertEquals("Kategorien bearbeiten", driver.findElement(By.linkText("Kategorien bearbeiten")).getText());
+            assertEquals("Kategorien bearbeiten", driver.findElement(By.linkText("Kategorien bearbeiten")).getText());
         } catch (Error e) {
             verificationErrors.append(e.toString());
         }
         try {
-            //assertEquals("Sie sind eingeloggt als admin admin", driver.findElement(By.cssSelector("div.row")).getText());
+            assertEquals("Sie sind eingeloggt als admin admin", driver.findElement(By.cssSelector("div.row")).getText());
         } catch (Error e) {
             verificationErrors.append(e.toString());
         }

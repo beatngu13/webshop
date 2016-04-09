@@ -10,7 +10,7 @@ import java.util.concurrent.TimeUnit;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 
-public class CategoryAdd {
+public class CategoryAddIT {
     private WebDriver driver;
     private String baseUrl;
     private boolean acceptNextAlert = true;
@@ -19,8 +19,8 @@ public class CategoryAdd {
     @Test
     public void testCategoryAdd() throws Exception {
         driver = new FirefoxDriver();
-        driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
-        driver.get("http://localhost:8080/EShop");
+        driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
+        driver.get("http://localhost:8080/webshop");
         driver.findElement(By.id("LoginAction_username")).clear();
         driver.findElement(By.id("LoginAction_username")).sendKeys("admin");
         driver.findElement(By.id("LoginAction_password")).clear();

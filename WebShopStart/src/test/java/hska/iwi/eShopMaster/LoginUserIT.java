@@ -19,8 +19,8 @@ public class LoginUserIT {
     @Test
     public void testLoginUser() throws Exception {
         driver = new FirefoxDriver();
-        driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
-        driver.get("http://localhost:8080/webshop");
+        driver.manage().timeouts().implicitlyWait(IntegrationTestsConfig.IMPLICIT_WAIT, TimeUnit.SECONDS);
+        driver.get(IntegrationTestsConfig.BASE_URL);
         driver.findElement(By.id("LoginAction_username")).clear();
         driver.findElement(By.id("LoginAction_username")).sendKeys("mmustermann");
         driver.findElement(By.id("LoginAction_password")).clear();

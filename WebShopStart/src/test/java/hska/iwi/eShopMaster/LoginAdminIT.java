@@ -12,15 +12,14 @@ import static org.junit.Assert.fail;
 
 public class LoginAdminIT {
     private WebDriver driver;
-    private String baseUrl;
     private boolean acceptNextAlert = true;
     private StringBuffer verificationErrors = new StringBuffer();
 
     @Test
     public void testLoginAdmin() throws Exception {
         driver = new FirefoxDriver();
-        driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
-        driver.get("http://localhost:8080/webshop");
+        driver.manage().timeouts().implicitlyWait(IntegrationTestsConfig.IMPLICIT_WAIT, TimeUnit.SECONDS);
+        driver.get(IntegrationTestsConfig.BASE_URL);
         driver.findElement(By.id("LoginAction_username")).clear();
         driver.findElement(By.id("LoginAction_username")).sendKeys("admin");
         driver.findElement(By.id("LoginAction_password")).clear();

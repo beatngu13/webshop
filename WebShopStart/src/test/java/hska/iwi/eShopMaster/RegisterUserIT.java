@@ -19,8 +19,8 @@ public class RegisterUserIT {
     @Test
     public void testRegisterUser() throws Exception {
         driver = new FirefoxDriver();
-        driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
-        driver.get("http://localhost:8080/webshop");
+        driver.manage().timeouts().implicitlyWait(IntegrationTestsConfig.IMPLICIT_WAIT, TimeUnit.SECONDS);
+        driver.get(IntegrationTestsConfig.BASE_URL);
         driver.findElement(By.linkText("Noch nicht registriert?")).click();
         driver.findElement(By.id("RegisterAction_firstname")).clear();
         driver.findElement(By.id("RegisterAction_firstname")).sendKeys("John");

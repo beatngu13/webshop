@@ -21,7 +21,7 @@
                 <version>1.5</version>
 
                 <dependencies>
-                    <!-- specify the dependent jdbc driver here -->
+                    <!-- Specify the dependent jdbc driver here -->
                     <dependency>
                         <groupId>mysql</groupId>
                         <artifactId>mysql-connector-java</artifactId>
@@ -30,6 +30,7 @@
                 </dependencies>
 
                 <configuration>
+					<!-- Specify database settings here -->
                     <driver>com.mysql.jdbc.Driver</driver>
                     <url>jdbc:mysql://localhost:3306/webshop</url>
                     <username>root</username>
@@ -37,7 +38,7 @@
                 </configuration>
 
                 <executions>
-                    <!--  It creates integration test data before running the tests -->
+                    <!--  Set up database for integration tests -->
                     <execution>
                         <id>create-integration-test-data</id>
                         <phase>process-test-resources</phase>
@@ -55,7 +56,7 @@
                         </configuration>
                     </execution>
 
-                    <!--  It drops data after executing tests -->
+                    <!-- Tear down database after integration tests -->
                     <execution>
                         <id>drop-db-after-test</id>
                         <phase>post-integration-test</phase>
@@ -94,9 +95,18 @@
 		</dependency>
 
 		<!-- Logging -->
-		<!-- <dependency> <groupId>org.apache.logging.log4j</groupId> <artifactId>log4j-api</artifactId> 
-			<version>2.5</version> </dependency> <dependency> <groupId>org.apache.logging.log4j</groupId> 
-			<artifactId>log4j-core</artifactId> <version>2.5</version> </dependency> -->
+		<!--
+		<dependency>
+			<groupId>org.apache.logging.log4j</groupId>
+			<artifactId>log4j-api</artifactId>
+			<version>2.5</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.logging.log4j</groupId>
+			<artifactId>log4j-core</artifactId>
+			<version>2.5</version>
+		</dependency>
+		-->
 
 		<!-- JavaEE Servlet -->
 		<dependency>
@@ -124,7 +134,7 @@
 			<version>5.2.2.Final</version>
 		</dependency>
 
-		<!-- mySQL -->
+		<!-- MySQL -->
 		<dependency>
 			<groupId>mysql</groupId>
 			<artifactId>mysql-connector-java</artifactId>

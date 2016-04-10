@@ -5,6 +5,7 @@ import org.junit.Test;
 import org.openqa.selenium.*;
 import org.openqa.selenium.firefox.FirefoxDriver;
 
+import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 
 import static org.junit.Assert.assertEquals;
@@ -39,7 +40,11 @@ public class RegisterUserIT {
         driver.findElement(By.id("LoginAction_password")).sendKeys("1234");
         driver.findElement(By.id("LoginAction__execute")).click();
         try {
-            assertEquals("Sie sind eingeloggt als John Done", driver.findElement(By.cssSelector("div.row")).getText());
+        	if (Locale.getDefault().toString().equalsIgnoreCase("en_US")) {
+        		assertEquals("You are logged in as John Done", driver.findElement(By.cssSelector("div.row")).getText());
+            } else {
+            	assertEquals("Sie sind eingeloggt als John Done", driver.findElement(By.cssSelector("div.row")).getText());
+            }
         } catch (Error e) {
             verificationErrors.append(e.toString());
         }

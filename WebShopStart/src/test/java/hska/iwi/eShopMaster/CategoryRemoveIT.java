@@ -5,6 +5,7 @@ import org.junit.Test;
 import org.openqa.selenium.*;
 import org.openqa.selenium.firefox.FirefoxDriver;
 
+import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 
 import static org.junit.Assert.assertFalse;
@@ -25,8 +26,15 @@ public class CategoryRemoveIT {
         driver.findElement(By.id("LoginAction_password")).clear();
         driver.findElement(By.id("LoginAction_password")).sendKeys("admin");
         driver.findElement(By.id("LoginAction__execute")).click();
-        driver.findElement(By.linkText("Kategorien bearbeiten")).click();
-        driver.findElement(By.cssSelector("img[alt=\"Löschen\"]")).click();
+
+        if (Locale.getDefault().toString().equalsIgnoreCase("en_US")) {
+        	driver.findElement(By.linkText("Edit categories")).click();
+        	driver.findElement(By.cssSelector("img[alt=\"Delete\"]")).click();
+        } else {
+        	driver.findElement(By.linkText("Kategorien bearbeiten")).click();
+        	driver.findElement(By.cssSelector("img[alt=\"Löschen\"]")).click();
+        }
+        
         driver.findElement(By.linkText("Alle Produkte")).click();
         try {
             assertFalse(isElementPresent(By.xpath("//div[@id='startpage_products']/table/tbody/tr[2]")));

@@ -5,6 +5,7 @@ import org.junit.Test;
 import org.openqa.selenium.*;
 import org.openqa.selenium.firefox.FirefoxDriver;
 
+import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 
 import static org.junit.Assert.assertEquals;
@@ -25,7 +26,13 @@ public class CategoryAddIT {
         driver.findElement(By.id("LoginAction_password")).clear();
         driver.findElement(By.id("LoginAction_password")).sendKeys("admin");
         driver.findElement(By.id("LoginAction__execute")).click();
-        driver.findElement(By.linkText("Kategorien bearbeiten")).click();
+        
+        if (Locale.getDefault().toString().equalsIgnoreCase("en_US")) {
+        	driver.findElement(By.linkText("Edit categories")).click();
+        } else {
+        	driver.findElement(By.linkText("Kategorien bearbeiten")).click();
+        }
+        
         driver.findElement(By.id("AddCategoryAction_newCatName")).clear();
         driver.findElement(By.id("AddCategoryAction_newCatName")).sendKeys("Alkohol");
         driver.findElement(By.id("AddCategoryAction_category_submit")).click();

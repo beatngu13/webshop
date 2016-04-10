@@ -5,6 +5,7 @@ import org.junit.Test;
 import org.openqa.selenium.*;
 import org.openqa.selenium.firefox.FirefoxDriver;
 
+import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 
 import static org.junit.Assert.assertEquals;
@@ -26,7 +27,15 @@ public class ProductAddIT {
         driver.findElement(By.id("LoginAction_password")).clear();
         driver.findElement(By.id("LoginAction_password")).sendKeys("admin");
         driver.findElement(By.id("LoginAction__execute")).click();
-        driver.findElement(By.linkText("Produkt hinzufügen")).click();
+        
+        if (Locale.getDefault().toString().equalsIgnoreCase("en_US")) {
+        	driver.findElement(By.linkText("Add product")).click();
+    		assertEquals("Add product", driver.findElement(By.linkText("Add product")).getText());
+        } else {
+        	driver.findElement(By.linkText("Produkt hinzufügen")).click();
+        	assertEquals("Produkt hinzufügen", driver.findElement(By.linkText("Produkt hinzufügen")).getText());
+        }
+        
         driver.findElement(By.id("AddProductAction_name")).clear();
         driver.findElement(By.id("AddProductAction_name")).sendKeys("Pizza");
         driver.findElement(By.id("AddProductAction_price")).clear();

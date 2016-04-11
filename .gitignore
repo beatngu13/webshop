@@ -7,7 +7,7 @@
 .settings/
 
 # IntelliJ
-EShop.iml
+*.iml
 .idea/
 
 # Maven

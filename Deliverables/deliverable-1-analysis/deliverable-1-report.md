@@ -38,8 +38,67 @@ Das folgende Entity Relationship Modell repräsentiert das Datenmodell der Legac
 
 # Analyse des Verhaltens #
 
-## Formale Spezifikation ##
-TODO
+## Funktionale Spezifikation ##
+Der Webshop bietet folgende Funktionen:
+
+- Registrierung
+- Login
+- Produktsuche
+- Produkt hinzufügen/entfernen
+- Kategorie hinzufügen/entfernen
+
+Hierbei können die letzten beiden Funktionalitäten ausschließlich von Administratoren verwendet werden. Um das korrekte Verhalten der Anwendung hinsichtlich dieser Funktionen auch nach dem Umbau verifizieren zu können, wurde nach dem Prinzip des *Golden Master Testing* (auch bekannt als Characterization Testing oder Behavorial Diff) vorgegangen. Dabei wird die Charakteristik der Anwendung in Form von (Integrations) Tests persitiert, wodurch Änderungen am Legacy Code durchgeführt und anschließend geprüft werden können.
+
+Im vorliegenden Fall das Capture-and-Replay-Tool [Selenium IDE](http://www.seleniumhq.org/projects/ide/) verwendet. Die Tests werden hierbei einmalig manuell durchgeführt und dabei aufgezeichnet (Capture), anschließend können diese beliebig oft und vollautomatisch wiederholt werden (Replay). Für gewöhnlich "lauscht" das Tool zu diesem Zweck auf verschiedene Events im Browser, wie etwa Mausklicks oder Tastatureingaben, und erstellt auf dieser Basis ein Testskript. Dies hat den Vorteil, dass Tests rasch erstellt werden können und keine Programmierkenntnisse voraussetzen, wodurch sich solche Tools besonders für Domänenexperten eignen. Die XML-Testskripte können anschließend als JUnit-Tests nach Java exportiert werden. Nachfolgend ein Beispiel für den Login-Vorgang des Admins:
+
+```java
+@Test
+public void testLoginAdmin() throws Exception {
+    driver = new FirefoxDriver();
+    driver.manage().timeouts().implicitlyWait(
+        IntegrationTestsConfig.IMPLICIT_WAIT, TimeUnit.SECONDS);
+    driver.get(IntegrationTestsConfig.BASE_URL);
+    driver.findElement(By.id("LoginAction_username")).clear();
+    driver.findElement(By.id("LoginAction_username")).sendKeys("admin");
+    driver.findElement(By.id("LoginAction_password")).clear();
+    driver.findElement(By.id("LoginAction_password")).sendKeys("admin");
+    driver.findElement(By.id("LoginAction__execute")).click();
+    try {
+        if (Locale.getDefault().toString().equalsIgnoreCase("en_US")) {
+            assertEquals("Add product", driver.findElement(
+                By.linkText("Add product")).getText());
+        } else {
+            assertEquals("Produkt hinzufügen", driver.findElement(
+                By.linkText("Produkt hinzufügen")).getText());
+        }
+    } catch (Error e) {
+        verificationErrors.append(e.toString());
+    }
+    try {
+        if (Locale.getDefault().toString().equalsIgnoreCase("en_US")) {
+            assertEquals("Edit categories", driver.findElement(
+                By.linkText("Edit categories")).getText());
+        } else {
+            assertEquals("Kategorien bearbeiten", driver.findElement(
+                By.linkText("Kategorien bearbeiten")).getText());
+        }
+    } catch (Error e) {
+        verificationErrors.append(e.toString());
+    }
+    try {
+        if (Locale.getDefault().toString().equalsIgnoreCase("en_US")) {
+            assertEquals("You are logged in as admin admin", 
+                driver.findElement(By.cssSelector("div.row")).getText());
+        } else {
+            assertEquals("Sie sind eingeloggt als admin admin", 
+                driver.findElement(By.cssSelector("div.row")).getText());
+        }
+    } catch (Error e) {
+        verificationErrors.append(e.toString());
+    }
+    driver.findElement(By.linkText("Logout")).click();
+}
+```
 
 ## Ablauf eines Beispiel-Workflows ##
 Anhand des Workflows "Produkt hinzufügen" wird exemplarisch die Kommunikation sowie das Verhalten der einzelnen Komponenten gezeigt. Es fällt auf, dass offensichtlich bei jeder Anfrage ein neuer `ProductManager`, `CategoryManager` sowie die zugehörigen Datenzugriffsobjekte erstellt werden. 

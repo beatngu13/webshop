@@ -67,7 +67,7 @@ Beispiel:
     "fistname": "Horst",
     "lastname": "Lüning",
     "password": "1234"
-    "rolen": "admin"
+    "role": "admin"
 }
 ```
 

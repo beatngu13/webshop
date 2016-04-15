@@ -48,13 +48,15 @@ Dient dem Anlegen von Benutzern und der Rollen, wobei letzteres optional ist. Da
 
 ## Request/Response
 Beispiel:
-- Request: POST /user/bob
+- Request: POST /user
 
 ```javascript
 {
-    "user": "bob",
-    "password" "1234",
-    "role": "user"
+    "username": "hlüning",
+    "fistname": "Horst",
+    "lastname": "Lüning",
+    "password": "1234"
+    "role": "admin"
 }
 ```
 

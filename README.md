@@ -2,10 +2,15 @@
 
 WebShop VISLAB (Master), Karlsruhe University of Applied Sciences.
 
-## Deliverable 1 (bis 14.04.) – Analyse der Legacy Anwendung ##
+- [X] Analyse der Legacy Anwendung
+- [ ] Microservice Architekturentwurf
+- [ ] Microservice Implementierung
 
-(Almost) done.
+## Analyse der Legacy Anwendung ##
+- Abgabe: 14.04.2016
 
-## Deliverable 2 (bis 28.04.) – Microservice Architekturentwurf ##
+## Microservice Architekturentwurf ##
+- Abgabe: 28.04.2016
 
-## Deliverable 3 (bis 30.06.) – Microservice Implementierung ##
+## Microservice Implementierung ##
+- Abgabe: 30.06.2016

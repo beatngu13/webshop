@@ -12,6 +12,8 @@
 
 # Maven
 target/
+.mvn
+mvn*
 
 # Hibernate
 hibernate.cfg.xml

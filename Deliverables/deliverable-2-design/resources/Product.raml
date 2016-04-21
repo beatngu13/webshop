@@ -1,0 +1,67 @@
+#%RAML 0.8
+title: Product Service
+baseUri: http://localhost
+mediaType: application/json
+version: v0.1
+
+/product:
+  post:
+    description: creates a new product
+    body:
+      application/json:
+        schema: |
+          { 
+            "$schema": "http://json-schema.org/draft-04/schema#",
+            "id": "http://jsonschema.net",
+            "type": "object",
+            "required": "true",
+            "properties":
+              {
+                "name": "string",
+                "price": "double",
+                "details": "string",
+                "category": "integer"
+              }
+          }
+  get:
+    description: get all products
+    responses:
+      200:
+        body:
+          application/json:
+            schema: |
+              {
+                "$schema": "http://json-schema.org/draft-04/schema#",
+                  "id": "http://jsonschema.net",
+                  "type": "object",
+                  "required": "true",
+                  "properties":
+                  {
+                    "products": ["object"]
+                  }
+              }
+  /{id}:
+    delete:
+      description: delete a specific product
+    get:
+      description: get a specific product by id
+      responses:
+        200:
+          body:
+            application/json:
+              schema: |
+                { 
+                  "$schema": "http://json-schema.org/draft-04/schema#",
+                  "id": "http://jsonschema.net",
+                  "type": "object",
+                  "required": "true",
+                  "properties":
+                    {
+                      "id": "integer",
+                      "name": "string",
+                      "price": "double",
+                      "details": "string",
+                      "category": "integer"
+                    }
+                }
+          

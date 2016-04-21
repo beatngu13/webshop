@@ -1,0 +1,72 @@
+#%RAML 0.8
+title: User Service
+baseUri: http://localhost
+mediaType: application/json
+version: v0.1
+
+/user:
+  post:
+    description: creates a new user
+    body:
+      application/json:
+        schema: |
+          { 
+            "$schema": "http://json-schema.org/draft-04/schema#",
+            "id": "http://jsonschema.net",
+            "type": "object",
+            "required": "true",
+            "properties":
+              {
+                "username": "string",
+                "fistname": "string",
+                "lastname": "string",
+                "password": "string",
+                "role": 
+                  {
+                    "enum": ["admin", "user"]
+                  }
+              }
+          }
+        example: |
+          {
+            "username": "hlüning",
+            "fistname": "Horst",
+            "lastname": "Lüning",
+            "password": "1234",
+            "role": "admin"
+          }
+  /{id}:
+    get:
+      description: get a specific user by id
+      responses:
+        200:
+          body:
+            application/json:
+              schema: |
+                { 
+                  "$schema": "http://json-schema.org/draft-04/schema#",
+                  "id": "http://jsonschema.net",
+                  "type": "object",
+                  "required": "true",
+                  "properties":
+                    {
+                      "id": "integer",
+                      "username": "string",
+                      "fistname": "string",
+                      "lastname": "string",
+                      "password": "string",
+                      "role": 
+                        {
+                          "enum": ["admin", "user"]
+                        }
+                    }
+                }
+              example: |
+                {
+                  "id": "1234",
+                  "username": "hlüning",
+                  "fistname": "Horst",
+                  "lastname": "Lüning",
+                  "password": "1234",
+                  "role": "admin"
+                }

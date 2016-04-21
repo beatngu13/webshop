@@ -15,7 +15,7 @@ Folgende Abbildung zeigt die Service-Architektur mit seinen Abstraktionsschichte
 
 
 ## User Service
-Dienst dem Anlegen und Abfragen der vorhandenen Benutzer.
+Dient dem Anlegen und Abfragen der vorhandenen Benutzer.
 
 ### Endpunkte
 | Verb | URI | Parameter | Beschreibung |

@@ -7,11 +7,13 @@
 .settings/
 
 # IntelliJ
-EShop.iml
+*.iml
 .idea/
 
 # Maven
 target/
+.mvn
+mvn*
 
 # Hibernate
 hibernate.cfg.xml

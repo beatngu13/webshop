@@ -5,55 +5,23 @@ Als Kerndienste wurden ein Product-Service, ein Category-Service sowie ein User-
 
 Folgende Abbildung zeigt die Service-Architektur mit seinen Abstraktionsschichten im Überblick:
 
-![Image](service_architecture.png)
+![Image](resources/architecture.png)
 
-# API
-- Login Service
+# Services
 - User Service
 - Product Service
+- Category Service
+- Product Category Service
 
-## Login Service
-Nimmt Benutzername und Passwort entgegen und gibt einen Zugriffs-Token zurück. Dieser Token wird für die Authentifizierung gegenüber den anderen Services verwendet.
-
-Der Dienst ist optional und wird als Stub umgesetzt.
-
-### Endpunkte
-| Verb | URI | Parameter | Beschreibung |
-|------|-----|-----------|--------------|
-| POST | /login |  | Führt den Login-Vorgang aus |
-
-### Request
-Beispiel:
-
-```javascript
-{
-    "user": "bob",
-    "password": "1234"
-}
-```
-
-### Response
-Kodiert den Benutzernamen und die Berechtigung (Rolle) als JSON WEb Token (https://jwt.io/).
-
-Beispiel:
-
-```javascript
-{
-    "token": "abc.def.ghi"
-}
-```
 
 ## User Service
-Dient dem Anlegen von Benutzern und der Rollen, wobei letzteres optional ist. Das Token wird jeweils im `Header` der Anfrage übermittelt.
+Dienst dem Anlegen und Abfragen der vorhandenen Benutzer.
 
 ### Endpunkte
 | Verb | URI | Parameter | Beschreibung |
 |------|-----|-----------|--------------|
-| GET  | /user      | filter | Gibt alle, oder je nach Filter nur einige, Benutzer zurück |
 | GET  | /user/{id} |  | Gibt genau einen Benutzer zurück |
 | POST | /user      |  | Fügt einen neuen Benutzer hinzu |
-| PUT  | /user/{id} |  | Ändert einen bestehenden Benutzer (optional) |
-| DELETE  | /user/{id} |  | Löscht einen bestehenden Benutzer (optional) |
 
 ## Request/Response
 Beispiel:
@@ -82,33 +50,179 @@ Beispiel:
 }
 ```
 
+### API
+```yaml
+#%RAML 0.8
+title: User Service
+baseUri: http://localhost
+mediaType: application/json
+version: v0.1
+
+/user:
+  post:
+    description: creates a new user
+    body:
+      application/json:
+        schema: |
+          {
+            "$schema": "http://json-schema.org/draft-04/schema#",
+            "id": "http://jsonschema.net",
+            "type": "object",
+            "required": "true",
+            "properties":
+              {
+                "username": "string",
+                "fistname": "string",
+                "lastname": "string",
+                "password": "string",
+                "role":
+                  {
+                    "enum": ["admin", "user"]
+                  }
+              }
+          }
+        example: |
+          {
+            "username": "hlüning",
+            "fistname": "Horst",
+            "lastname": "Lüning",
+            "password": "1234",
+            "role": "admin"
+          }
+  /{id}:
+    get:
+      description: get a specific user by id
+      responses:
+        200:
+          body:
+            application/json:
+              schema: |
+                {
+                  "$schema": "http://json-schema.org/draft-04/schema#",
+                  "id": "http://jsonschema.net",
+                  "type": "object",
+                  "required": "true",
+                  "properties":
+                    {
+                      "id": "integer",
+                      "username": "string",
+                      "fistname": "string",
+                      "lastname": "string",
+                      "password": "string",
+                      "role":
+                        {
+                          "enum": ["admin", "user"]
+                        }
+                    }
+                }
+              example: |
+                {
+                  "id": "1234",
+                  "username": "hlüning",
+                  "fistname": "Horst",
+                  "lastname": "Lüning",
+                  "password": "1234",
+                  "role": "admin"
+                }
+
+```
+
+## Category Service
+Dient dem Anlegen, Abfragen und Löschen von Kategorien.
+
+### Endpunkte
+
+| Verb | URI | Parameter | Beschreibung |
+|------|-----|-----------|--------------|
+| GET  | /category      |  | Gibt alle Kategorien zurück |
+| GET  | /category/{id} |  | Gibt genau eine Kategorie zurück |
+| POST | /category      |  | Fügt einen neue Kategorie hinzu |
+| DELETE  | /category/{id} |  | Ändert eine bestehende Kategorie |
+
+### API
+```yaml
+#%RAML 0.8
+title: Category Service
+baseUri: http://localhost
+mediaType: application/json
+version: v0.1
+
+/category:
+  post:
+    description: creates a new category
+    body:
+      application/json:
+        schema: |
+          {
+            "$schema": "http://json-schema.org/draft-04/schema#",
+            "id": "http://jsonschema.net",
+            "type": "object",
+            "required": "true",
+            "properties":
+              {
+                "name": "string"
+              }
+          }
+  get:
+    description: get all categories
+    responses:
+      200:
+        body:
+          application/json:
+            schema: |
+              {
+                "$schema": "http://json-schema.org/draft-04/schema#",
+                  "id": "http://jsonschema.net",
+                  "type": "object",
+                  "required": "true",
+                  "properties":
+                  {
+                    "categories": ["object"]
+                  }
+              }
+  /{id}:
+    delete:
+      description: delete a specific category
+    get:
+      description: get a specific category by id
+      responses:
+        200:
+          body:
+            application/json:
+              schema: |
+                {
+                  "$schema": "http://json-schema.org/draft-04/schema#",
+                  "id": "http://jsonschema.net",
+                  "type": "object",
+                  "required": "true",
+                  "properties":
+                    {
+                      "id": "integer",
+                      "name": "string"
+                    }
+                }
+
+```
+
 ## Product Service
-Dient dem Anlegen, Abfragen und Ändern von Produkten und Kategorien. Das Token wird jeweils im `Header` der Anfrage übermittelt.
+Dient dem Anlegen, Abfragen und Löschen von Produkten.
 
 ### Endpunkte
 | Verb | URI | Parameter | Beschreibung |
 |------|-----|-----------|--------------|
-| GET  | /category      | filter | Gibt alle, oder je nach Filter nur einige, Kategorien zurück (optional) |
-| GET  | /category/{id} |  | Gibt genau eine Kategorie zurück (optional) |
-| POST | /category      |  | Fügt einen neue Kategorie hinzu |
-| PUT  | /category/{id} |  | Ändert eine bestehende Kategorie |
-| DELETE  | /category/{id} |  | Ändert eine bestehende Kategorie |
 | GET  | /product      | filter | Gibt alle, oder je nach Filter nur einige, Produkte zurück |
 | GET  | /product/{id} |  | Gibt genau ein Product zurück |
 | POST | /product      |  | Fügt eine neues Produkt hinzu |
-| PUT  | /product/{id} |  | Ändert ein bestehendes Produkt (optional) |
 | DELETE  | /product/{id} |  | Entfernt ein bestehendes Produkt |
 
-Als Variation könnten auch über `/category` die Produkte der jeweiligen Kategorie zurückgegeben werden.
 
 ### Request/Response
 Beispiel: GET /category/12
 
 ```javascript
 {
-    "id": "12",
-    "name": "user",
-    "products": ["a", "b", "c", "d", "e"] // Variante
+    "id": 12,
+    "name": "whisky"
 }
 ```
 
@@ -116,7 +230,7 @@ Beispiel: GET /product/?name=Jameson
 
 ```javascript
 {
-    "products": ["1234", "765"]
+    "products": [1234, 765]
 }
 ```
 
@@ -124,7 +238,7 @@ Beispiel: GET /product/?minPrice=100
 
 ```javascript
 {
-    "products": ["12", "15", "45", "57", "96"]
+    "products": [12, 15, 45, 57, 96]
 }
 ```
 
@@ -132,7 +246,7 @@ Beispiel: GET /product/1234
 
 ```javascript
 {
-    "id": "1234",
+    "id": 1234,
     "name": "Jameson Limited Reserve 18 Jahre",
     "price": "79.90",
     "category": "whisky",
@@ -151,14 +265,213 @@ Beispiel:
     "details": "Der Jameson Gold ist der hochwertigste Jameson in unlimitierter Abfüllung. Ein frischer Whiskey mit komplexen Pot Still Charakter, der durch eine Portion Sherryfass Whiskey abgemildert wird. Der Abgang ist lang und kräftig."
 }
 ```
-- Resonse (Optional auch nur ID)
 
 ```javascript
 {
-    "id": "765",
+    "id": 765,
     "name": "Jameson Gold",
     "price": "49.90",
     "category": "whisky",
     "details": "Der Jameson Gold ist der hochwertigste Jameson in unlimitierter Abfüllung. Ein frischer Whiskey mit komplexen Pot Still Charakter, der durch eine Portion Sherryfass Whiskey abgemildert wird. Der Abgang ist lang und kräftig."
 }
+```
+
+### API
+```yaml
+#%RAML 0.8
+title: Product Service
+baseUri: http://localhost
+mediaType: application/json
+version: v0.1
+
+/product:
+  post:
+    description: creates a new product
+    body:
+      application/json:
+        schema: |
+          {
+            "$schema": "http://json-schema.org/draft-04/schema#",
+            "id": "http://jsonschema.net",
+            "type": "object",
+            "required": "true",
+            "properties":
+              {
+                "name": "string",
+                "price": "double",
+                "details": "string",
+                "category": "integer"
+              }
+          }
+  get:
+    description: get all products
+    responses:
+      200:
+        body:
+          application/json:
+            schema: |
+              {
+                "$schema": "http://json-schema.org/draft-04/schema#",
+                  "id": "http://jsonschema.net",
+                  "type": "object",
+                  "required": "true",
+                  "properties":
+                  {
+                    "products": ["object"]
+                  }
+              }
+  /{id}:
+    delete:
+      description: delete a specific product
+    get:
+      description: get a specific product by id
+      responses:
+        200:
+          body:
+            application/json:
+              schema: |
+                {
+                  "$schema": "http://json-schema.org/draft-04/schema#",
+                  "id": "http://jsonschema.net",
+                  "type": "object",
+                  "required": "true",
+                  "properties":
+                    {
+                      "id": "integer",
+                      "name": "string",
+                      "price": "double",
+                      "details": "string",
+                      "category": "integer"
+                    }
+                }
+
+```
+
+## Product Category Service
+Dieser Dienst bietet Zugriff auf den darunterliegenden `Product` und `Category` Service. Dabei sorgt er auch für die Einhaltung der Konsistenz, da zwar eine Kategorie ohne Produkt, ein Produkt niemals ohne Kategorie existieren darf.
+
+### API
+```yaml
+#%RAML 0.8
+title: Product Category Composite Service
+baseUri: http://localhost
+mediaType: application/json
+version: v0.1
+
+/category:
+  post:
+    description: creates a new category
+    body:
+      application/json:
+        schema: |
+          {
+            "$schema": "http://json-schema.org/draft-04/schema#",
+            "id": "http://jsonschema.net",
+            "type": "object",
+            "required": "true",
+            "properties":
+              {
+                "name": "string"
+              }
+          }
+  get:
+    description: get all categories
+    responses:
+      200:
+        body:
+          application/json:
+            schema: |
+              {
+                "$schema": "http://json-schema.org/draft-04/schema#",
+                  "id": "http://jsonschema.net",
+                  "type": "object",
+                  "required": "true",
+                  "properties":
+                  {
+                    "categories": ["object"]
+                  }
+              }
+  /{id}:
+    delete:
+      description: delete a specific category
+    get:
+      description: get a specific category by id
+      responses:
+        200:
+          body:
+            application/json:
+              schema: |
+                {
+                  "$schema": "http://json-schema.org/draft-04/schema#",
+                  "id": "http://jsonschema.net",
+                  "type": "object",
+                  "required": "true",
+                  "properties":
+                    {
+                      "id": "integer",
+                      "name": "string"
+                    }
+                }
+
+/product:
+  post:
+    description: creates a new product
+    body:
+      application/json:
+        schema: |
+          {
+            "$schema": "http://json-schema.org/draft-04/schema#",
+            "id": "http://jsonschema.net",
+            "type": "object",
+            "required": "true",
+            "properties":
+              {
+                "name": "string",
+                "price": "double",
+                "details": "string",
+                "category": "integer"
+              }
+          }
+  get:
+    description: get all products
+    responses:
+      200:
+        body:
+          application/json:
+            schema: |
+              {
+                "$schema": "http://json-schema.org/draft-04/schema#",
+                  "id": "http://jsonschema.net",
+                  "type": "object",
+                  "required": "true",
+                  "properties":
+                  {
+                    "products": ["object"]
+                  }
+              }
+  /{id}:
+    delete:
+      description: delete a specific product
+    get:
+      description: get a specific product by id
+      responses:
+        200:
+          body:
+            application/json:
+              schema: |
+                {
+                  "$schema": "http://json-schema.org/draft-04/schema#",
+                  "id": "http://jsonschema.net",
+                  "type": "object",
+                  "required": "true",
+                  "properties":
+                    {
+                      "id": "integer",
+                      "name": "string",
+                      "price": "double",
+                      "details": "string",
+                      "category": "integer"
+                    }
+                }
+
 ```

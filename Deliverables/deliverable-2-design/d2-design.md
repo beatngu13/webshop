@@ -1,4 +1,13 @@
-# Überblick
+# Architekturentwurf
+Die Webanwendung behält ihre Business Logik vollständig bei und die Services werden somit als datenzentrierte Dienste entworfen. In den BusinessLogic-Managern werden alle DAO-Aufrufe durch entsprechende Service-Calls ersetzt. Alle Requests werden zunächst in einem API-Gateway gesammelt und an die entsprechenden darunter liegenden Komponenten geleitet.
+
+Als Kerndienste wurden ein Product-Service, ein Category-Service sowie ein User-Service identifiziert. Da die Entitäten der Produkte und Kategorien im Datenmodell eng miteinander verknüpft sind, wurden diese beiden mithilfe eines Composite-Services zusammengefasst, welcher als einheitliche Schnittstelle dieser beiden Dienste fungiert.
+
+Folgende Abbildung zeigt die Service-Architektur mit seinen Abstraktionsschichten im Überblick:
+
+![Image](service_architecture.png)
+
+# API
 - Login Service
 - User Service
 - Product Service

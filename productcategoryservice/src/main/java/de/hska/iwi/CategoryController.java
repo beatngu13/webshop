@@ -13,7 +13,7 @@ public class CategoryController {
 
     private RestTemplate restTemplate = new RestTemplate();
 
-    private String categoryUrl = "http://localhost:8080/category";
+    private String categoryUrl = "http://localhost:8082/category";
 
     @RequestMapping(method = RequestMethod.GET, value = "/category")
     public List<Category> getCategories() {

@@ -1,13 +1,7 @@
 package de.hska.iwi.domain;
 
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 /**
  * This class contains details about products.
@@ -16,84 +10,82 @@ import javax.persistence.Table;
 @Table(name = "product")
 public class Product implements java.io.Serializable {
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
+    /**
+     *
+     */
+    private static final long serialVersionUID = 1L;
 
-	@Id
-	@GeneratedValue
-	@Column(name = "id", nullable = false)
-	private int id;
+    @Id
+    @GeneratedValue
+    @Column(name = "id", nullable = false)
+    private int id;
 
-	@Column(name = "name")
-	private String name;
+    @Column(name = "name")
+    private String name;
 
-	@Column(name = "price")
-	private double price;
+    @Column(name = "price")
+    private double price;
 
-	
-	@ManyToOne
-	@JoinColumn(name = "category_id")
-	private Category category;
+    @Column(name = "category_id")
+    private int category;
 
-	@Column(name = "details")
-	private String details;
+    @Column(name = "details")
+    private String details;
 
-	public Product() {
-	}
+    public Product() {
+    }
 
-	public Product(String name, double price, Category category) {
-		this.name = name;
-		this.price = price;
-		this.category = category;
-	}
+    public Product(String name, double price, int category) {
+        this.name = name;
+        this.price = price;
+        this.category = category;
+    }
 
-	public Product(String name, double price, Category category, String details) {
-		this.name = name;
-		this.price = price;
-		this.category = category;
-		this.details = details;
-	}
+    public Product(String name, double price, int category, String details) {
+        this.name = name;
+        this.price = price;
+        this.category = category;
+        this.details = details;
+    }
 
-	public int getId() {
-		return this.id;
-	}
+    public int getId() {
+        return this.id;
+    }
 
-	public void setId(int id) {
-		this.id = id;
-	}
+    public void setId(int id) {
+        this.id = id;
+    }
 
-	public String getName() {
-		return this.name;
-	}
+    public String getName() {
+        return this.name;
+    }
 
-	public void setName(String name) {
-		this.name = name;
-	}
+    public void setName(String name) {
+        this.name = name;
+    }
 
-	public double getPrice() {
-		return this.price;
-	}
+    public double getPrice() {
+        return this.price;
+    }
 
-	public void setPrice(double price) {
-		this.price = price;
-	}
+    public void setPrice(double price) {
+        this.price = price;
+    }
 
-	public Category getCategory() {
-		return this.category;
-	}
+    public int getCategory() {
+        return this.category;
+    }
 
-	public void setCategory(Category category) {
-		this.category = category;
-	}
+    public void setCategory(int category) {
+        this.category = category;
+    }
 
-	public String getDetails() {
-		return this.details;
-	}
+    public String getDetails() {
+        return this.details;
+    }
 
-	public void setDetails(String details) {
-		this.details = details;
-	}
+    public void setDetails(String details) {
+        this.details = details;
+    }
 
 }

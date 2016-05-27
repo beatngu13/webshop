@@ -1,7 +1,7 @@
-package de.hska.iwi;
+package de.hska.iwi.domain;
+
 
 public class UserRequest {
-
     private String username;
     private String firstname;
     private String lastname;
@@ -9,7 +9,6 @@ public class UserRequest {
     private String role;
 
     public UserRequest() {
-
     }
 
     public String getUsername() {
@@ -50,16 +49,5 @@ public class UserRequest {
 
     public void setRole(String role) {
         this.role = role;
-    }
-
-    @Override
-    public String toString() {
-        return "UserRequest{" +
-                ", username='" + username + '\'' +
-                ", firstname='" + firstname + '\'' +
-                ", lastname='" + lastname + '\'' +
-                ", password='" + password + '\'' +
-                ", role='" + role + '\'' +
-                '}';
     }
 }

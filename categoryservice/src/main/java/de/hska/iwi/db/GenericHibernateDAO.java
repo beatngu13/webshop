@@ -11,25 +11,13 @@ import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.util.List;
 
-//import org.apache.logging.log4j.Logger;
-
-
 public class GenericHibernateDAO<E, PK extends Serializable> implements IGenericDAO<E, PK> {
-
-
     /**
      * The class of the pojo being persisted.
      */
     protected Class<E> entityClass;
 
-//	private static Logger log = Logger.class(GenericHibernateDAO.class);
-    //   private static final Logger log = LogManager.getLogger("GenericHibernateDAO");
-
-
-    @SuppressWarnings("unchecked")
     protected GenericHibernateDAO() {
-//			ParameterizedType genericSuperclass = (ParameterizedType) getClass().getGenericSuperclass();
-//			this.entityClass = (Class<E>) genericSuperclass.getActualTypeArguments()[1];
         final Type thisType = getClass().getGenericSuperclass();
         final Type type;
         if (thisType instanceof ParameterizedType) {
@@ -47,7 +35,6 @@ public class GenericHibernateDAO<E, PK extends Serializable> implements IGeneric
         } else {
             throw new IllegalArgumentException("Problem determining the class of the generic for " + getClass());
         }
-
     }
 
     public void saveObject(E entity) {
@@ -61,23 +48,16 @@ public class GenericHibernateDAO<E, PK extends Serializable> implements IGeneric
             session.getTransaction().rollback();
             throw new RuntimeException(e);
         }
-
     }
 
-    @SuppressWarnings("unchecked")
     public E getObjectById(PK id) {
-
         Session session = HibernateUtil.getSessionFactory().getCurrentSession();
-
         session.beginTransaction();
-
         E entity = (E) session.get(entityClass, id);
         session.getTransaction().commit();
         return (E) entity;
     }
 
-
-    @SuppressWarnings("unchecked")
     public E getObjectByName(String name) {
         Session session = HibernateUtil.getSessionFactory().getCurrentSession();
         try {
@@ -98,10 +78,8 @@ public class GenericHibernateDAO<E, PK extends Serializable> implements IGeneric
         }
     }
 
-
     public void deleteObject(E entity) {
         Session session = HibernateUtil.getSessionFactory().getCurrentSession();
-
         try {
             session.beginTransaction();
             session.delete(entity);
@@ -111,13 +89,10 @@ public class GenericHibernateDAO<E, PK extends Serializable> implements IGeneric
             session.getTransaction().rollback();
             throw new RuntimeException(e);
         }
-
     }
-
 
     public void deleteById(PK id) {
         Session session = HibernateUtil.getSessionFactory().getCurrentSession();
-
         try {
             session.beginTransaction();
             E entity = (E) session.get(entityClass, id);
@@ -128,16 +103,11 @@ public class GenericHibernateDAO<E, PK extends Serializable> implements IGeneric
             session.getTransaction().rollback();
             throw new RuntimeException(e);
         }
-
-
     }
 
-
-    @SuppressWarnings("unchecked")
     public List<E> get(E entity) {
         Session session = HibernateUtil.getSessionFactory().getCurrentSession();
         try {
-
             session.beginTransaction();
             Criteria crit = session.createCriteria(entityClass);
             crit.add(Restrictions.idEq(entity));
@@ -151,14 +121,10 @@ public class GenericHibernateDAO<E, PK extends Serializable> implements IGeneric
         }
     }
 
-
-    @SuppressWarnings("unchecked")
     public List<E> getObjectList() {
         Session session = HibernateUtil.getSessionFactory().getCurrentSession();
-
         try {
             session.beginTransaction();
-
             Criteria crit = session.createCriteria(entityClass);
             List<E> resultList = crit.list();
             session.getTransaction().commit();
@@ -168,17 +134,12 @@ public class GenericHibernateDAO<E, PK extends Serializable> implements IGeneric
             session.getTransaction().rollback();
             throw new RuntimeException(e);
         }
-
     }
 
-
-    @SuppressWarnings("unchecked")
     public List<E> getSortedList(String sortOrder, String sortProperty) {
         Session session = HibernateUtil.getSessionFactory().getCurrentSession();
-
         try {
             session.beginTransaction();
-
             Criteria crit = session.createCriteria(entityClass);
             if (!sortProperty.equals("")) {
                 if (sortOrder.equals("asc")) {
@@ -195,12 +156,10 @@ public class GenericHibernateDAO<E, PK extends Serializable> implements IGeneric
             session.getTransaction().rollback();
             throw new RuntimeException(e);
         }
-
     }
 
     public void updateObject(E entity) {
         Session session = HibernateUtil.getSessionFactory().getCurrentSession();
-
         try {
             session.beginTransaction();
             session.update(entity);
@@ -211,6 +170,4 @@ public class GenericHibernateDAO<E, PK extends Serializable> implements IGeneric
             throw new RuntimeException(e);
         }
     }
-
-
 }

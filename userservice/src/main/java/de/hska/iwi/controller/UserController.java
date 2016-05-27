@@ -1,9 +1,9 @@
 package de.hska.iwi.controller;
 
-import de.hska.iwi.UserRequest;
 import de.hska.iwi.db.RoleDAO;
 import de.hska.iwi.db.UserDAO;
 import de.hska.iwi.domain.User;
+import de.hska.iwi.domain.UserRequest;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -15,10 +15,10 @@ public class UserController {
     @RequestMapping(method = RequestMethod.POST, value = "/user")
     private User createUser(@RequestBody UserRequest request) {
         User user = new User(request.getUsername(), request.getFirstname(),
-                request.getLastname(), request.getPassword(), roleDAO.getRoleByLevel(1));
+                request.getLastname(), request.getPassword(),
+                roleDAO.getRoleByLevel(request.getRole().equalsIgnoreCase("admin") ? 0 : 1));
 
         userDAO.saveObject(user);
-
         return userDAO.getUserByUsername(user.getUsername());
     }
 

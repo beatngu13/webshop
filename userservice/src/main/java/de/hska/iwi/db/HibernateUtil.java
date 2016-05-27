@@ -9,7 +9,7 @@ import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 public class HibernateUtil {
 
     private static SessionFactory sessionFactory = null;
-    
+
 //	static {
 //		try {
 //            // Create the SessionFactory from hibernate.cfg.xml
@@ -25,24 +25,21 @@ public class HibernateUtil {
 //	}
 
 
-
     static {
-			// A SessionFactory is set up once for an application!
-			StandardServiceRegistry registry = new StandardServiceRegistryBuilder()
-					.configure() // configures settings from hibernate.cfg.xml
-					.build();
-			try {
-				sessionFactory = new MetadataSources( registry ).buildMetadata().buildSessionFactory();
-			}
-			catch (Exception e) {
-				// The registry would be destroyed by the SessionFactory, but we had trouble building the SessionFactory
-				// so destroy it manually.
-				StandardServiceRegistryBuilder.destroy( registry );
-			}
-		}
-    
+        // A SessionFactory is set up once for an application!
+        StandardServiceRegistry registry = new StandardServiceRegistryBuilder()
+                .configure() // configures settings from hibernate.cfg.xml
+                .build();
+        try {
+            sessionFactory = new MetadataSources(registry).buildMetadata().buildSessionFactory();
+        } catch (Exception e) {
+            // The registry would be destroyed by the SessionFactory, but we had trouble building the SessionFactory
+            // so destroy it manually.
+            StandardServiceRegistryBuilder.destroy(registry);
+        }
+    }
 
-    
+
     public static SessionFactory getSessionFactory() {
         return sessionFactory;
     }

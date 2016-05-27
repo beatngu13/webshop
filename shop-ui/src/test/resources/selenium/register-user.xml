@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head profile="http://selenium-ide.openqa.org/profiles/test-case">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<link rel="selenium.base" href="http://localhost:8080/" />
+<title>register-user</title>
+</head>
+<body>
+<table cellpadding="1" cellspacing="1" border="1">
+<thead>
+<tr><td rowspan="1" colspan="3">register-user</td></tr>
+</thead><tbody>
+<tr>
+	<td>open</td>
+	<td>/webshop/LogoutAction.action</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=exact:Noch nicht registriert?</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id=RegisterAction_firstname</td>
+	<td>John</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id=RegisterAction_lastname</td>
+	<td>Done</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id=RegisterAction_username</td>
+	<td>jdoe</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id=RegisterAction_password1</td>
+	<td>1234</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id=RegisterAction_password2</td>
+	<td>1234</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>id=RegisterAction_register_submit</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id=LoginAction_username</td>
+	<td>jdoe</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id=LoginAction_password</td>
+	<td>1234</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>id=LoginAction__execute</td>
+	<td></td>
+</tr>
+<tr>
+	<td>verifyText</td>
+	<td>css=div.row</td>
+	<td>Sie sind eingeloggt als John Done</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=Logout</td>
+	<td></td>
+</tr>
+</tbody></table>
+</body>
+</html>

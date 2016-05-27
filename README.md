@@ -1,6 +1,6 @@
 # webshop #
 
-Distributed Systems Laboratory, Karlsruhe University of Applied Sciences
+Verteilte Systeme Labor (Master), Hochschule Karlsruhe – Technik und Wirtschaft
 
 - [x] Analyse der Legacy Anwendung (bis 14.04.2016)
 - [x] Microservice Architekturentwurf (bis 28.04.2016)

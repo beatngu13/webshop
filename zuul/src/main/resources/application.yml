@@ -15,7 +15,7 @@ zuul:
     user:
       path: /user/**
       serviceId: user-service
-#      stripPrefix: false
+      stripPrefix: false
 
 server:
   port: 8091

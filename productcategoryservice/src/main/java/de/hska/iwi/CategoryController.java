@@ -35,4 +35,8 @@ public class CategoryController {
         restTemplate.delete(categoryUrl + "/" + id);
     }
 
+    public Category getCategoryById(int category) {
+        // TODO
+        return new Category("Blub");
+    }
 }

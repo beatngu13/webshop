@@ -16,6 +16,14 @@ zuul:
       path: /user/**
       serviceId: user-service
       stripPrefix: false
+    product:
+      path: /product/**
+      serviceId: product-category-service
+      stripPrefix: false
+    category:
+          path: /category/**
+          serviceId: product-category-service
+          stripPrefix: false
 
 server:
   port: 8091

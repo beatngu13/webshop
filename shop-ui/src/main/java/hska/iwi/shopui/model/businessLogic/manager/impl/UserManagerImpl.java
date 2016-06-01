@@ -1,13 +1,13 @@
-package hska.iwi.eShopMaster.model.businessLogic.manager.impl;
+package hska.iwi.shopui.model.businessLogic.manager.impl;
 
-import static hska.iwi.eShopMaster.model.businessLogic.manager.impl.Configuration.USER;
-import static hska.iwi.eShopMaster.model.businessLogic.manager.impl.Configuration.USER_BASE_URL;
+import static hska.iwi.shopui.model.businessLogic.manager.impl.Configuration.USER;
+import static hska.iwi.shopui.model.businessLogic.manager.impl.Configuration.USER_BASE_URL;
 
 import org.springframework.web.client.RestTemplate;
 
-import hska.iwi.eShopMaster.model.businessLogic.manager.UserManager;
-import hska.iwi.eShopMaster.model.domain.Role;
-import hska.iwi.eShopMaster.model.domain.User;
+import hska.iwi.shopui.model.businessLogic.manager.UserManager;
+import hska.iwi.shopui.model.domain.Role;
+import hska.iwi.shopui.model.domain.User;
 
 public class UserManagerImpl implements UserManager {
 	private RestTemplate restTemplate;

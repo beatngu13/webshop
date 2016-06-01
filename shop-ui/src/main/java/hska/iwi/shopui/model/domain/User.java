@@ -1,4 +1,4 @@
-package hska.iwi.eShopMaster.model.domain;
+package hska.iwi.shopui.model.domain;
 
 /**
  * This class contains the users of the webshop.

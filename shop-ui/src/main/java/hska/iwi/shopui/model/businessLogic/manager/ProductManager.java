@@ -1,8 +1,8 @@
-package hska.iwi.eShopMaster.model.businessLogic.manager;
+package hska.iwi.shopui.model.businessLogic.manager;
 
 import java.util.List;
 
-import hska.iwi.eShopMaster.model.domain.Product;
+import hska.iwi.shopui.model.domain.Product;
 
 public interface ProductManager {
 

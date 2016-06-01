@@ -1,14 +1,14 @@
-package hska.iwi.eShopMaster.model.businessLogic.manager.impl;
+package hska.iwi.shopui.model.businessLogic.manager.impl;
+
+import static hska.iwi.shopui.model.businessLogic.manager.impl.Configuration.*;
 
 import java.util.Arrays;
 import java.util.List;
 
 import org.springframework.web.client.RestTemplate;
 
-import hska.iwi.eShopMaster.model.businessLogic.manager.CategoryManager;
-import hska.iwi.eShopMaster.model.domain.Category;
-
-import static hska.iwi.eShopMaster.model.businessLogic.manager.impl.Configuration.*;
+import hska.iwi.shopui.model.businessLogic.manager.CategoryManager;
+import hska.iwi.shopui.model.domain.Category;
 
 public class CategoryManagerImpl implements CategoryManager{
 	private RestTemplate restTemplate;

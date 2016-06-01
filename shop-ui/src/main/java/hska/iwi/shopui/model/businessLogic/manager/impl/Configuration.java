@@ -1,4 +1,4 @@
-package hska.iwi.eShopMaster.model.businessLogic.manager.impl;
+package hska.iwi.shopui.model.businessLogic.manager.impl;
 
 public class Configuration {
 

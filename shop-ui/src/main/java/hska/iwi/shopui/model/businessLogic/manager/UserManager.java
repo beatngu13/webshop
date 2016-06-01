@@ -1,7 +1,7 @@
-package hska.iwi.eShopMaster.model.businessLogic.manager;
+package hska.iwi.shopui.model.businessLogic.manager;
 
-import hska.iwi.eShopMaster.model.domain.Role;
-import hska.iwi.eShopMaster.model.domain.User;
+import hska.iwi.shopui.model.domain.Role;
+import hska.iwi.shopui.model.domain.User;
 
 
 public interface UserManager {

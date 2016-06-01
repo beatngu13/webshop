@@ -1,4 +1,4 @@
-package hska.iwi.eShopMaster.controller;
+package hska.iwi.shopui.controller;
 
 import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ActionSupport;

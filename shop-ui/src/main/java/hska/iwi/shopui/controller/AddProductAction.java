@@ -1,17 +1,17 @@
-package hska.iwi.eShopMaster.controller;
-
-import hska.iwi.eShopMaster.model.businessLogic.manager.CategoryManager;
-import hska.iwi.eShopMaster.model.businessLogic.manager.ProductManager;
-import hska.iwi.eShopMaster.model.businessLogic.manager.impl.CategoryManagerImpl;
-import hska.iwi.eShopMaster.model.businessLogic.manager.impl.ProductManagerImpl;
-import hska.iwi.eShopMaster.model.domain.Category;
-import hska.iwi.eShopMaster.model.domain.User;
+package hska.iwi.shopui.controller;
 
 import java.util.List;
 import java.util.Map;
 
 import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ActionSupport;
+
+import hska.iwi.shopui.model.businessLogic.manager.CategoryManager;
+import hska.iwi.shopui.model.businessLogic.manager.ProductManager;
+import hska.iwi.shopui.model.businessLogic.manager.impl.CategoryManagerImpl;
+import hska.iwi.shopui.model.businessLogic.manager.impl.ProductManagerImpl;
+import hska.iwi.shopui.model.domain.Category;
+import hska.iwi.shopui.model.domain.User;
 
 public class AddProductAction extends ActionSupport {
 

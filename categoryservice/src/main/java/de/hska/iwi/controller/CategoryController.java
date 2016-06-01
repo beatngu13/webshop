@@ -16,13 +16,6 @@ public class CategoryController {
         return categoryDAO.getObjectList();
     }
     
-    /*
-    @RequestMapping(method = RequestMethod.GET, value = "/category/{name}")
-    public Category getCategoryByName(@PathVariable String name) {
-        return categoryDAO.getObjectByName(name);
-    }
-    */
-    
     @RequestMapping(method = RequestMethod.GET, value = "/category/{id}")
     public Category getCategoryById(@PathVariable int id) {
         return categoryDAO.getObjectById(id);

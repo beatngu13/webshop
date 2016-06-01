@@ -74,16 +74,6 @@ public class ProductController {
                 categoryController.getCategoryById(product.getCategory()),
                 product.getDetails());
     }
-
-    private List<CoreProduct> convertForCoreService(List<UIProduct> uiProducts) {
-        List<CoreProduct> products = new ArrayList<>(uiProducts.size());
-
-        for (UIProduct uiProduct : uiProducts) {
-            products.add(convertForCoreService(uiProduct));
-        }
-
-        return products;
-    }
     
     private CoreProduct convertForCoreService(UIProduct uiProduct) {
     	return new CoreProduct(uiProduct.getName(),

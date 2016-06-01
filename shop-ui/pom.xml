@@ -3,7 +3,7 @@
 
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>de.hska.iwi</groupId>
-	<artifactId>EShop</artifactId>
+	<artifactId>shop-ui</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>war</packaging>
 

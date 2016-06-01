@@ -43,4 +43,10 @@ public class CategoryController {
     public void removeCategory(@PathVariable int id) {
         restTemplate.delete(getCategoryUrl() + "/" + id);
     }
+
+    // TODO
+    public Category getCategoryById(int category) {
+        return new Category("Blub");
+    }
+
 }

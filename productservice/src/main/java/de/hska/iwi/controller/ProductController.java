@@ -15,7 +15,6 @@ public class ProductController {
     @RequestMapping(method = RequestMethod.POST)
     private Product createProduct(@RequestBody Product product) {
         productDAO.saveObject(product);
-
         return productDAO.getProductByName(product.getName());
     }
 

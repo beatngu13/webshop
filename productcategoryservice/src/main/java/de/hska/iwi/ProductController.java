@@ -1,13 +1,20 @@
 package de.hska.iwi;
 
-import de.hska.iwi.domain.response.Product;
-import org.springframework.web.bind.annotation.*;
-import org.springframework.web.client.RestTemplate;
-import org.springframework.web.util.UriComponentsBuilder;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.client.RestTemplate;
+import org.springframework.web.util.UriComponentsBuilder;
+
+import de.hska.iwi.domain.CoreProduct;
+import de.hska.iwi.domain.UIProduct;
 
 @RestController
 @RequestMapping("/product")
@@ -19,17 +26,18 @@ public class ProductController {
     private CategoryController categoryController = new CategoryController();
 
     @RequestMapping(method = RequestMethod.POST)
-    private Product createProduct(@RequestBody Product product) {
-        return restTemplate.postForObject(productUrl, product, Product.class);
+    private UIProduct createProduct(@RequestBody UIProduct product) {     				
+    	CoreProduct coreProduct = convertForCoreService(product);
+    	return convertForUI(restTemplate.postForObject(productUrl, coreProduct, CoreProduct.class));
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/{id}")
-    private Product getProduct(@PathVariable int id) {
-        return restTemplate.getForObject(productUrl + "/" + id, Product.class);
+    private UIProduct getProduct(@PathVariable int id) {
+        return convertForUI(restTemplate.getForObject(productUrl + "/" + id, CoreProduct.class));
     }
 
     @RequestMapping(method = RequestMethod.GET)
-    private List<Product> searchProduct(
+    private List<UIProduct> searchProduct(
             @RequestParam(value = "name", required = false) String name,
             @RequestParam(value = "minPrice", required = false) Double minPrice,
             @RequestParam(value = "maxPrice", required = false) Double maxPrice) {
@@ -39,10 +47,10 @@ public class ProductController {
                 .queryParam("minPrice", minPrice)
                 .queryParam("maxPrice", maxPrice);
 
-        List<de.hska.iwi.domain.Product> products =
-                Arrays.asList(restTemplate.getForObject(builder.build().encode().toUri(), de.hska.iwi.domain.Product[].class));
+        List<CoreProduct> products =
+                Arrays.asList(restTemplate.getForObject(builder.build().encode().toUri(), CoreProduct[].class));
 
-        return convert(products);
+        return convertForUI(products);
     }
 
     @RequestMapping(method = RequestMethod.DELETE, value = "/{id}")
@@ -50,21 +58,37 @@ public class ProductController {
         restTemplate.delete(productUrl + "/" + id);
     }
 
-    private List<Product> convert(List<de.hska.iwi.domain.Product> products) {
-        List<Product> res = new ArrayList<>(products.size());
+    private List<UIProduct> convertForUI(List<CoreProduct> products) {
+        List<UIProduct> uiProducts = new ArrayList<>(products.size());
 
-        for (de.hska.iwi.domain.Product p : products) {
-            res.add(convert(p));
+        for (CoreProduct product : products) {
+            uiProducts.add(convertForUI(product));
         }
 
-        return res;
+        return uiProducts;
     }
 
-    private Product convert(de.hska.iwi.domain.Product product) {
-        return new Product(product.getName(),
+    private UIProduct convertForUI(CoreProduct product) {
+        return new UIProduct(product.getName(),
                 product.getPrice(),
                 categoryController.getCategoryById(product.getCategory()),
                 product.getDetails());
     }
 
+    private List<CoreProduct> convertForCoreService(List<UIProduct> uiProducts) {
+        List<CoreProduct> products = new ArrayList<>(uiProducts.size());
+
+        for (UIProduct uiProduct : uiProducts) {
+            products.add(convertForCoreService(uiProduct));
+        }
+
+        return products;
+    }
+    
+    private CoreProduct convertForCoreService(UIProduct uiProduct) {
+    	return new CoreProduct(uiProduct.getName(),
+    			uiProduct.getPrice(),
+    			uiProduct.getCategory().getId(),
+    			uiProduct.getDetails());
+    }
 }

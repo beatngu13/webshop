@@ -20,11 +20,13 @@ public class CategoryController {
         return Arrays.asList(restTemplate.getForObject(categoryUrl, Category[].class));
     }
 
+    /*
     @RequestMapping(method = RequestMethod.GET, value = "/category/{name}")
     public Category getCategoryByName(@PathVariable String name) {
         return restTemplate.getForObject(categoryUrl + "/" + name, Category.class);
     }
-
+	*/
+    
     @RequestMapping(method = RequestMethod.POST, value = "/category")
     public Category addCategory(@RequestBody Category request) {
         return restTemplate.postForObject(categoryUrl, request, Category.class);
@@ -35,8 +37,8 @@ public class CategoryController {
         restTemplate.delete(categoryUrl + "/" + id);
     }
 
-    public Category getCategoryById(int category) {
-        // TODO
-        return new Category("Blub");
+    @RequestMapping(method = RequestMethod.GET, value = "/category/{id}")
+    public Category getCategoryById(@PathVariable int id) {
+        return restTemplate.getForObject(categoryUrl + "/" + id, Category.class);
     }
 }

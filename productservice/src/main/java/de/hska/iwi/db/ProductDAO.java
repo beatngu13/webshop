@@ -50,7 +50,7 @@ public class ProductDAO extends GenericHibernateDAO<Product, Integer> {
 
     public Product getProductByName(String name) {
         Session session = HibernateUtil.getSessionFactory().getCurrentSession();
-        String queryString = "from Product where product.name = :name";
+        String queryString = "from Product where name = :name";
         Transaction transaction = null;
         Product product = null;
 

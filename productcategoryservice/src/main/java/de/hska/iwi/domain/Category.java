@@ -14,16 +14,12 @@ public class Category implements java.io.Serializable {
     private int id;
     private String name;
 
-    public Category() {
-    }
+    public Category() {}
 
     public Category(String name) {
         this.name = name;
     }
 
-    @Id
-    @GeneratedValue
-    @Column(name = "id", nullable = false)
     public int getId() {
         return this.id;
     }
@@ -32,7 +28,6 @@ public class Category implements java.io.Serializable {
         this.id = id;
     }
 
-    @Column(name = "name", nullable = false)
     public String getName() {
         return this.name;
     }

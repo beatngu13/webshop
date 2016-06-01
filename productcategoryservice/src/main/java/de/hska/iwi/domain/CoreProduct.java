@@ -3,45 +3,36 @@ package de.hska.iwi.domain;
 
 import javax.persistence.*;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+
 /**
  * This class contains details about products.
  */
 @Entity
 @Table(name = "product")
-public class Product implements java.io.Serializable {
+public class CoreProduct implements java.io.Serializable {
 
     /**
      *
      */
     private static final long serialVersionUID = 1L;
-
-    @Id
-    @GeneratedValue
-    @Column(name = "id", nullable = false)
+    
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     private int id;
-
-    @Column(name = "name")
     private String name;
-
-    @Column(name = "price")
     private double price;
-
-    @Column(name = "category_id")
     private int category;
-
-    @Column(name = "details")
     private String details;
 
-    public Product() {
-    }
+    public CoreProduct() {}
 
-    public Product(String name, double price, int category) {
+    public CoreProduct(String name, double price, int category) {
         this.name = name;
         this.price = price;
         this.category = category;
     }
 
-    public Product(String name, double price, int category, String details) {
+    public CoreProduct(String name, double price, int category, String details) {
         this.name = name;
         this.price = price;
         this.category = category;

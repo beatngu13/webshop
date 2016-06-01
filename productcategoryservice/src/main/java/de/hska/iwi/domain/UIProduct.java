@@ -1,27 +1,30 @@
-package de.hska.iwi.domain.response;
+package de.hska.iwi.domain;
 
-import de.hska.iwi.domain.Category;
+import com.fasterxml.jackson.annotation.JsonInclude;
 
 /**
  * This class contains details about products.
  */
-public class Product implements java.io.Serializable {
+public class UIProduct implements java.io.Serializable {
 
 	private static final long serialVersionUID = 1L;
 	
+	@JsonInclude(JsonInclude.Include.NON_NULL)
 	private int id;
 	private String name;
 	private double price;
 	private Category category;
 	private String details;
 
-	public Product(String name, double price, Category category) {
+	public UIProduct() {}
+	
+	public UIProduct(String name, double price, Category category) {
 		this.name = name;
 		this.price = price;
 		this.category = category;
 	}
 
-	public Product(String name, double price, Category category, String details) {
+	public UIProduct(String name, double price, Category category, String details) {
 		this.name = name;
 		this.price = price;
 		this.category = category;

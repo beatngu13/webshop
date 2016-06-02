@@ -2,6 +2,7 @@ package de.hska.iwi;
 
 
 import de.hska.iwi.domain.Category;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 
@@ -21,13 +22,6 @@ public class CategoryController {
         return Arrays.asList(restTemplate.getForObject(CATEGORY_URL, Category[].class));
     }
 
-    /*
-    @RequestMapping(method = RequestMethod.GET, value = "/category/{name}")
-    public Category getCategoryByName(@PathVariable String name) {
-        return restTemplate.getForObject(CATEGORY_URL + "/" + name, Category.class);
-    }
-	*/
-
     @RequestMapping(method = RequestMethod.POST)
     public Category addCategory(@RequestBody Category request) {
         return restTemplate.postForObject(CATEGORY_URL, request, Category.class);
@@ -38,6 +32,7 @@ public class CategoryController {
         restTemplate.delete(CATEGORY_URL + "/" + id);
     }
 
+    @Cacheable("categories")
     @RequestMapping(method = RequestMethod.GET, value = "/{id}")
     public Category getCategoryById(@PathVariable int id) {
         return restTemplate.getForObject(CATEGORY_URL + "/" + id, Category.class);

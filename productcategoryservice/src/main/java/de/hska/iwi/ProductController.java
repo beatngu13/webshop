@@ -2,6 +2,7 @@ package de.hska.iwi;
 
 import de.hska.iwi.domain.CoreProduct;
 import de.hska.iwi.domain.UIProduct;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
@@ -16,7 +17,8 @@ public class ProductController {
 
     private static final String PRODUCT_URL = "http://localhost:8081/product";
 
-    private CategoryController categoryController = new CategoryController();
+    @Autowired
+    private CategoryController categoryController;
     private RestTemplate restTemplate = new RestTemplate();
 
     @RequestMapping(method = RequestMethod.POST)

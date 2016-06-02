@@ -7,5 +7,6 @@ public class Configuration {
 	public static final String PRODUCT = "/product";
 	public static final String CATEGORY = "/category";
 	public static final String USER = "/user";
+	public static final String ROLE = "/role";
 	
 }

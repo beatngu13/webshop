@@ -64,13 +64,13 @@ INSERT INTO `product` (`id`, `details`, `name`, `price`, `category_id`) VALUES
 DROP TABLE IF EXISTS `role`;
 CREATE TABLE IF NOT EXISTS `role` (
   `id` int(11) NOT NULL,
-  `level` int(11) DEFAULT NULL,
+  `level1` int(11) DEFAULT NULL,
   `type` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- Exportiere Daten aus Tabelle microservice_webshop.role: ~0 rows (ungefähr)
 /*!40000 ALTER TABLE `role` DISABLE KEYS */;
-INSERT INTO `role` (`id`, `level`, `type`) VALUES
+INSERT INTO `role` (`id`, `level1`, `type`) VALUES
 	(1, 0, 'admin'),
 	(2, 1, 'user');

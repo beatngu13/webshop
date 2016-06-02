@@ -1,5 +1,6 @@
 package hska.iwi.shopui.model.businessLogic.manager.impl;
 
+import static hska.iwi.shopui.model.businessLogic.manager.impl.Configuration.ROLE;
 import static hska.iwi.shopui.model.businessLogic.manager.impl.Configuration.USER;
 import static hska.iwi.shopui.model.businessLogic.manager.impl.Configuration.USER_BASE_URL;
 
@@ -31,8 +32,7 @@ public class UserManagerImpl implements UserManager {
 	}
 
 	public Role getRoleByLevel(int level) {
-		// TODO: implement me
-		return new Role("admin", 1);
+		return restTemplate.getForObject(USER_BASE_URL + ROLE + "/" + level, Role.class);
 	}
 
 	public boolean doesUserAlreadyExist(String username) {
@@ -40,8 +40,7 @@ public class UserManagerImpl implements UserManager {
     	
     	if (dbUser != null){
     		return true;
-    	}
-    	else {
+    	} else {
     		return false;
     	}
 	}

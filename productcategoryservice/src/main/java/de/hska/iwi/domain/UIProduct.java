@@ -24,7 +24,8 @@ public class UIProduct implements java.io.Serializable {
 		this.category = category;
 	}
 
-	public UIProduct(String name, double price, Category category, String details) {
+	public UIProduct(int id, String name, double price, Category category, String details) {
+		this.id = id;
 		this.name = name;
 		this.price = price;
 		this.category = category;

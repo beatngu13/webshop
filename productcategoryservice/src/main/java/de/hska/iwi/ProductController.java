@@ -1,5 +1,6 @@
 package de.hska.iwi;
 
+import de.hska.iwi.domain.Category;
 import de.hska.iwi.domain.CoreProduct;
 import de.hska.iwi.domain.UIProduct;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +10,8 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
+
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -17,8 +20,6 @@ import java.util.stream.Collectors;
 @RequestMapping("/product")
 public class ProductController {
 
-    private static final String PRODUCT_URL = "http://localhost:8081/product";
-
     private RestTemplate restTemplate = new RestTemplate();
 
     @Autowired
@@ -26,27 +27,38 @@ public class ProductController {
     @Autowired
     private LoadBalancerClient loadBalancer;
 
-    private String getProductUrl() {
+    public String getProductUrl() {
         ServiceInstance instance = loadBalancer.choose("product-service");
         return String.format("http://%s:%s/product", instance.getHost(), instance.getPort());
     }
 
+    @HystrixCommand(fallbackMethod = "createProductFallback")
     @RequestMapping(method = RequestMethod.POST)
-    private UIProduct createProduct(@RequestBody UIProduct product) {
+    public UIProduct createProduct(@RequestBody UIProduct product) {
         CoreProduct coreProduct = convertForCoreService(product);
-        return convertForUI(restTemplate.postForObject(PRODUCT_URL, coreProduct, CoreProduct.class));
+        return convertForUI(restTemplate.postForObject(getProductUrl(), coreProduct, CoreProduct.class));
+    }
+    
+    public UIProduct createProductFallback(UIProduct product) {
+    	return new UIProduct("Error", 0.0, new Category("Error"));
     }
 
+    @HystrixCommand(fallbackMethod = "getProductFallback")
     @RequestMapping(method = RequestMethod.GET, value = "/{id}")
-    private UIProduct getProduct(@PathVariable int id) {
-        return convertForUI(restTemplate.getForObject(PRODUCT_URL + "/" + id, CoreProduct.class));
+    public UIProduct getProduct(@PathVariable int id) {
+        return convertForUI(restTemplate.getForObject(getProductUrl() + "/" + id, CoreProduct.class));
+    }
+    
+    public UIProduct getProductFallback(int id) {
+    	return new UIProduct("Error", 0.0, new Category("Error"));
     }
 
+    @HystrixCommand(fallbackMethod = "searchProductFallback")
     @RequestMapping(method = RequestMethod.GET)
-    private List<UIProduct> searchProduct(@RequestParam(value = "name", required = false) String name,
+    public List<UIProduct> searchProduct(@RequestParam(value = "name", required = false) String name,
                                           @RequestParam(value = "minPrice", required = false) Double minPrice,
                                           @RequestParam(value = "maxPrice", required = false) Double maxPrice) {
-        UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(PRODUCT_URL)
+        UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(getProductUrl())
                 .queryParam("name", name)
                 .queryParam("minPrice", minPrice)
                 .queryParam("maxPrice", maxPrice);
@@ -55,10 +67,14 @@ public class ProductController {
 
         return convertForUI(products);
     }
+    
+    public List<UIProduct> searchProductFallback(String name, Double minPrice, Double maxPrice) {
+    	return Arrays.asList(new UIProduct("Error", 0.0, new Category("Error")));
+    }
 
     @RequestMapping(method = RequestMethod.DELETE, value = "/{id}")
-    private void deleteProduct(@PathVariable int id) {
-        restTemplate.delete(PRODUCT_URL + "/" + id);
+    public void deleteProduct(@PathVariable int id) {
+        restTemplate.delete(getProductUrl() + "/" + id);
     }
 
     private List<UIProduct> convertForUI(List<CoreProduct> products) {
@@ -66,7 +82,8 @@ public class ProductController {
     }
 
     private UIProduct convertForUI(CoreProduct product) {
-        return new UIProduct(product.getName(),
+        return new UIProduct(product.getId(),
+        		product.getName(),
                 product.getPrice(),
                 categoryController.getCategoryById(product.getCategory()),
                 product.getDetails());

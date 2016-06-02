@@ -1,7 +1,7 @@
 package de.hska.iwi;
 
-import de.hska.iwi.domain.response.Product;
-
+import de.hska.iwi.domain.CoreProduct;
+import de.hska.iwi.domain.UIProduct;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.client.ServiceInstance;
 import org.springframework.cloud.client.loadbalancer.LoadBalancerClient;
@@ -9,72 +9,74 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/product")
 public class ProductController {
 
-    private RestTemplate restTemplate = new RestTemplate();
-    private CategoryController categoryController = new CategoryController();
+    private static final String PRODUCT_URL = "http://localhost:8081/product";
 
+    private RestTemplate restTemplate = new RestTemplate();
+
+    @Autowired
+    private CategoryController categoryController;
     @Autowired
     private LoadBalancerClient loadBalancer;
 
     private String getProductUrl() {
-    	ServiceInstance instance = loadBalancer.choose("product-service");
-    	return String.format("http://%s:%s/product", instance.getHost(), instance.getPort());
+        ServiceInstance instance = loadBalancer.choose("product-service");
+        return String.format("http://%s:%s/product", instance.getHost(), instance.getPort());
     }
 
     @RequestMapping(method = RequestMethod.POST)
-    private Product createProduct(@RequestBody Product product) {
-        return restTemplate.postForObject(getProductUrl(), product, Product.class);
+    private UIProduct createProduct(@RequestBody UIProduct product) {
+        CoreProduct coreProduct = convertForCoreService(product);
+        return convertForUI(restTemplate.postForObject(PRODUCT_URL, coreProduct, CoreProduct.class));
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/{id}")
-    private Product getProduct(@PathVariable int id) {
-        return restTemplate.getForObject(getProductUrl() + "/" + id, Product.class);
+    private UIProduct getProduct(@PathVariable int id) {
+        return convertForUI(restTemplate.getForObject(PRODUCT_URL + "/" + id, CoreProduct.class));
     }
 
     @RequestMapping(method = RequestMethod.GET)
-    private List<Product> searchProduct(
-            @RequestParam(value = "name", required = false) String name,
-            @RequestParam(value = "minPrice", required = false) Double minPrice,
-            @RequestParam(value = "maxPrice", required = false) Double maxPrice) {
-
-        UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(getProductUrl())
+    private List<UIProduct> searchProduct(@RequestParam(value = "name", required = false) String name,
+                                          @RequestParam(value = "minPrice", required = false) Double minPrice,
+                                          @RequestParam(value = "maxPrice", required = false) Double maxPrice) {
+        UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(PRODUCT_URL)
                 .queryParam("name", name)
                 .queryParam("minPrice", minPrice)
                 .queryParam("maxPrice", maxPrice);
+        List<CoreProduct> products =
+                Arrays.asList(restTemplate.getForObject(builder.build().encode().toUri(), CoreProduct[].class));
 
-        List<de.hska.iwi.domain.Product> products =
-                Arrays.asList(restTemplate.getForObject(builder.build().encode().toUri(), de.hska.iwi.domain.Product[].class));
-
-        return convert(products);
+        return convertForUI(products);
     }
 
     @RequestMapping(method = RequestMethod.DELETE, value = "/{id}")
     private void deleteProduct(@PathVariable int id) {
-        restTemplate.delete(getProductUrl() + "/" + id);
+        restTemplate.delete(PRODUCT_URL + "/" + id);
     }
 
-    private List<Product> convert(List<de.hska.iwi.domain.Product> products) {
-        List<Product> res = new ArrayList<>(products.size());
-
-        for (de.hska.iwi.domain.Product p : products) {
-            res.add(convert(p));
-        }
-
-        return res;
+    private List<UIProduct> convertForUI(List<CoreProduct> products) {
+        return products.stream().map(p -> convertForUI(p)).collect(Collectors.toList());
     }
 
-    private Product convert(de.hska.iwi.domain.Product product) {
-        return new Product(product.getName(),
+    private UIProduct convertForUI(CoreProduct product) {
+        return new UIProduct(product.getName(),
                 product.getPrice(),
                 categoryController.getCategoryById(product.getCategory()),
                 product.getDetails());
+    }
+
+    private CoreProduct convertForCoreService(UIProduct uiProduct) {
+        return new CoreProduct(uiProduct.getName(),
+                uiProduct.getPrice(),
+                uiProduct.getCategory().getId(),
+                uiProduct.getDetails());
     }
 
 }

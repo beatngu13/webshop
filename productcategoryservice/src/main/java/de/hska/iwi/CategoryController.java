@@ -1,8 +1,9 @@
 package de.hska.iwi;
 
-import de.hska.iwi.domain.Category;
 
+import de.hska.iwi.domain.Category;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.cloud.client.ServiceInstance;
 import org.springframework.cloud.client.loadbalancer.LoadBalancerClient;
 import org.springframework.web.bind.annotation.*;
@@ -12,7 +13,10 @@ import java.util.Arrays;
 import java.util.List;
 
 @RestController
+@RequestMapping("/category")
 public class CategoryController {
+
+    private static final String CATEGORY_URL = "http://localhost:8082/category";
 
     private RestTemplate restTemplate = new RestTemplate();
 
@@ -20,33 +24,29 @@ public class CategoryController {
     private LoadBalancerClient loadBalancer;
 
     private String getCategoryUrl() {
-    	ServiceInstance instance = loadBalancer.choose("category-service");
-    	return String.format("http://%s:%s/category", instance.getHost(), instance.getPort());
+        ServiceInstance instance = loadBalancer.choose("category-service");
+        return String.format("http://%s:%s/category", instance.getHost(), instance.getPort());
     }
 
-    @RequestMapping(method = RequestMethod.GET, value = "/category")
+    @RequestMapping(method = RequestMethod.GET)
     public List<Category> getCategories() {
-        return Arrays.asList(restTemplate.getForObject(getCategoryUrl(), Category[].class));
+        return Arrays.asList(restTemplate.getForObject(CATEGORY_URL, Category[].class));
     }
 
-    @RequestMapping(method = RequestMethod.GET, value = "/category/{name}")
-    public Category getCategoryByName(@PathVariable String name) {
-        return restTemplate.getForObject(getCategoryUrl() + "/" + name, Category.class);
-    }
-
-    @RequestMapping(method = RequestMethod.POST, value = "/category")
+    @RequestMapping(method = RequestMethod.POST)
     public Category addCategory(@RequestBody Category request) {
-        return restTemplate.postForObject(getCategoryUrl(), request, Category.class);
+        return restTemplate.postForObject(CATEGORY_URL, request, Category.class);
     }
 
-    @RequestMapping(method = RequestMethod.DELETE, value = "/category/{id}")
+    @RequestMapping(method = RequestMethod.DELETE, value = "/{id}")
     public void removeCategory(@PathVariable int id) {
-        restTemplate.delete(getCategoryUrl() + "/" + id);
+        restTemplate.delete(CATEGORY_URL + "/" + id);
     }
 
-    // TODO
-    public Category getCategoryById(int category) {
-        return new Category("Blub");
+    @Cacheable("categories")
+    @RequestMapping(method = RequestMethod.GET, value = "/{id}")
+    public Category getCategoryById(@PathVariable int id) {
+        return restTemplate.getForObject(CATEGORY_URL + "/" + id, Category.class);
     }
 
 }

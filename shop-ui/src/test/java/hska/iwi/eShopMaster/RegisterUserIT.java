@@ -34,6 +34,9 @@ public class RegisterUserIT {
         driver.findElement(By.id("RegisterAction_password2")).clear();
         driver.findElement(By.id("RegisterAction_password2")).sendKeys("1234");
         driver.findElement(By.id("RegisterAction_register_submit")).click();
+        
+        driver.get(IntegrationTestsConfig.BASE_URL);
+        
         driver.findElement(By.id("LoginAction_username")).clear();
         driver.findElement(By.id("LoginAction_username")).sendKeys("jdoe");
         driver.findElement(By.id("LoginAction_password")).clear();

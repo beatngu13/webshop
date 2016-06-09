@@ -34,55 +34,71 @@
 				<artifactId>sql-maven-plugin</artifactId>
 				<version>1.5</version>
 
+                <dependencies>
+                    <!-- Specify the dependent jdbc driver here -->
+                    <dependency>
+                        <groupId>mysql</groupId>
+                        <artifactId>mysql-connector-java</artifactId>
+                        <version>5.1.38</version>
+                    </dependency>
+                </dependencies>
 
-				<executions>
-					<!-- Set up database for integration tests -->
-					<execution>
-						<id>create-integration-test-data</id>
-						<phase>pre-integration-test</phase>
-						<goals>
-							<goal>execute</goal>
-						</goals>
-						<configuration>
-							<autocommit>true</autocommit>
-							<fileset>
-								<basedir>${basedir}/src/test/resources/sql</basedir>
-								<includes>
-									<include>pre-integration-test.sql</include>
-								</includes>
-							</fileset>
-						</configuration>
-					</execution>
+                <configuration>
+                    <!-- Specify database settings here -->
+                    <driver>com.mysql.jdbc.Driver</driver>
+                    <url>jdbc:mysql://localhost:3306/microservice_webshop</url>
+                    <username>root</username>
+                    <password>1234</password>
+                </configuration>
 
-					<!-- Tear down database after integration tests -->
-					<execution>
-						<id>drop-db-after-test</id>
-						<phase>post-integration-test</phase>
-						<goals>
-							<goal>execute</goal>
-						</goals>
-						<configuration>
-							<autocommit>true</autocommit>
-							<fileset>
-								<basedir>${basedir}/src/test/resources/sql</basedir>
-								<includes>
-									<include>post-integration-test.sql</include>
-								</includes>
-							</fileset>
-						</configuration>
-					</execution>
-				</executions>
-			</plugin>
-		</plugins>
-	</build>
+                <executions>
+                    <!--  Set up database for integration tests -->
+                    <execution>
+                        <id>create-integration-test-data</id>
+                        <phase>pre-integration-test</phase>
+                        <goals>
+                            <goal>execute</goal>
+                        </goals>
+                        <configuration>
+                            <autocommit>true</autocommit>
+                            <fileset>
+                                <basedir>${basedir}/src/test/resources/sql</basedir>
+                                <includes>
+                                    <include>pre-integration-test.sql</include>
+                                </includes>
+                            </fileset>
+                        </configuration>
+                    </execution>
 
-	<properties>
-		<java-version>1.8</java-version>
-		<hibernate.version>5.0.2.Final</hibernate.version>
-		<struts2.version>2.5-BETA3</struts2.version>
-		<log4j2.version>2.5</log4j2.version>
-		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-	</properties>
+                    <!-- Tear down database after integration tests -->
+                    <execution>
+                        <id>drop-db-after-test</id>
+                        <phase>post-integration-test</phase>
+                        <goals>
+                            <goal>execute</goal>
+                        </goals>
+                        <configuration>
+                            <autocommit>true</autocommit>
+                            <fileset>
+                                <basedir>${basedir}/src/test/resources/sql</basedir>
+                                <includes>
+                                    <include>post-integration-test.sql</include>
+                                </includes>
+                            </fileset>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+
+    <properties>
+        <java-version>1.8</java-version>
+        <hibernate.version>5.0.2.Final</hibernate.version>
+        <struts2.version>2.5-BETA3</struts2.version>
+        <log4j2.version>2.5</log4j2.version>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    </properties>
 
 	<dependencies>
 		<!-- Struts 2 -->

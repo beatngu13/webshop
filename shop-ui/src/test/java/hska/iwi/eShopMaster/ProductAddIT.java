@@ -43,6 +43,15 @@ public class ProductAddIT {
         driver.findElement(By.id("AddProductAction_details")).clear();
         driver.findElement(By.id("AddProductAction_details")).sendKeys("Lecker!");
         driver.findElement(By.id("AddProductAction_product_submit")).click();
+
+        if (Locale.getDefault().toString().equalsIgnoreCase("en_US")) {
+        	driver.findElement(By.linkText("Alle Produkte")).click();
+    		assertEquals("Add product", driver.findElement(By.linkText("Add product")).getText());
+        } else {
+        	driver.findElement(By.linkText("Alle Produkte")).click();
+        	assertEquals("Produkt hinzufügen", driver.findElement(By.linkText("Produkt hinzufügen")).getText());
+        }
+        
         try {
             assertEquals("Pizza", driver.findElement(By.xpath("//div[@id='startpage_products']/table/tbody/tr[2]/td[2]")).getText());
         } catch (Error e) {

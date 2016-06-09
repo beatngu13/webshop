@@ -2,6 +2,7 @@ package de.hska.iwi;
 
 import de.hska.iwi.domain.Category;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.cloud.client.ServiceInstance;
 import org.springframework.cloud.client.loadbalancer.LoadBalancerClient;
@@ -47,13 +48,14 @@ public class CategoryController {
     	return new Category("Error");
     }
 
+    @CacheEvict(cacheNames="categories")
     @RequestMapping(method = RequestMethod.DELETE, value = "/{id}")
     public void removeCategory(@PathVariable int id) {
         restTemplate.delete(getCategoryUrl() + "/" + id);
     }
 
-    @HystrixCommand(fallbackMethod = "getCategoryByIdFallback")
     @Cacheable("categories")
+    @HystrixCommand(fallbackMethod = "getCategoryByIdFallback")
     @RequestMapping(method = RequestMethod.GET, value = "/{id}")
     public Category getCategoryById(@PathVariable int id) {
         return restTemplate.getForObject(getCategoryUrl() + "/" + id, Category.class);
